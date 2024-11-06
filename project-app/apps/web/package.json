@@ -9,11 +9,27 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@repo/db": ".",
+    "@hookform/resolvers": "^3.9.1",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@radix-ui/react-toast": "^1.2.2",
+    "@repo/db": "*",
     "@repo/ui": "*",
+    "add": "^2.0.6",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "init": "^0.1.2",
+    "lucide-react": "^0.454.0",
     "next": "14.2.6",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "react-hook-form": "^7.53.1",
+    "react-resizable-panels": "^2.1.6",
+    "shadcn": "^2.1.6",
+    "skeleton": "^0.1.2",
+    "tailwind-merge": "^2.5.4",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
@@ -21,8 +37,11 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "14.2.6",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.14",
     "typescript": "5.5.4"
   }
 }
