@@ -1,4 +1,4 @@
-// import { RegisterForm } from "@/components/forms/register-form";
+import { RegisterForm } from "@/components/forms/register-form";
 import Image from "next/image";
 
 //images
@@ -22,7 +22,7 @@ export default async function RegisterPage() {
             className=" h-72 w-auto "
           />
         </div>
-        {/* <RegisterForm /> */}
+        <RegisterForm />
       </section>
     </main>
   );

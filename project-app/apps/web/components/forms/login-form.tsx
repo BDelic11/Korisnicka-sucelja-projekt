@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
+import { LoginButton } from "../ui/loginButton";
 
 export async function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -29,14 +30,14 @@ export async function LoginForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function login(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(login)}
         className="space-y-4 flex flex-col md:w-1/3"
       >
         <h1 className="md:h-full text-left md:my-6 scroll-m-20 text-4xl font-extrabold tracking-tight  lg:text-5xl">
@@ -76,9 +77,7 @@ export async function LoginForm() {
             </FormItem>
           )}
         />
-        <Button size="default" className=" mt-10" type="submit">
-          Login
-        </Button>
+        <LoginButton />
         <Link href="/register">
           <p className="flex justify-center my-4 leading-7 text-gray-600 cursor-pointer">
             Don&rsquo;t have an account?
