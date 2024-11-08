@@ -54,7 +54,7 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
     return { error: "Nije kreiran user!" };
   }
 
-  await createSession(createdUser.id);
+  //   await createSession(createdUser.id);
 
   return { success: "Uspješno ste se registrirali!" };
 };
