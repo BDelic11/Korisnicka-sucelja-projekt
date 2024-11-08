@@ -58,12 +58,18 @@ export function RegisterForm() {
 
   // Function to handle form submission
   async function handleRegister(formData: z.infer<typeof registerSchema>) {
-    await register(formData);
-    toast({
-      title: "Registration Successful",
-      description: `Welcome, ${formData.name}!`,
-    });
-    router.push("/");
+    const response = await register(formData);
+    if (response.success) {
+      toast({
+        title: `${response}`,
+        description: `Welcome, ${formData.name}!`,
+      });
+
+      router.push("/");
+    } else
+      toast({
+        title: `${response.error}`,
+      });
   }
 
   return (

@@ -2,16 +2,15 @@
 
 import * as z from "zod";
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
-import { createSession } from "@repo/ui/lib/session";
 import { db, users } from "@repo/db";
 
 import { registerSchema } from "@repo/db/schemas/register";
 // import { checkUserByUsername, getUserByEmail } from "./user";
-// import { redirect } from "next/navigation";
-import { User } from "@repo/db/types/user";
-import { randomInt } from "crypto";
-import Error from "next/error";
+// import { User } from "@repo/db/types/user";
+// import Error from "next/error";
+import { createSession } from "@/lib/session";
 
 export const register = async (values: z.infer<typeof registerSchema>) => {
   const validatedFields = registerSchema.safeParse(values);
@@ -39,10 +38,12 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
   //   }
 
   // verification token TODO
+  const userId = uuidv4();
 
   const [createdUser] = await db
     .insert(users)
     .values({
+      id: userId,
       name,
       surname,
       email,
@@ -54,7 +55,7 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
     return { error: "Nije kreiran user!" };
   }
 
-  //   await createSession(createdUser.id);
+  await createSession(userId);
 
   return { success: "Uspješno ste se registrirali!" };
 };
