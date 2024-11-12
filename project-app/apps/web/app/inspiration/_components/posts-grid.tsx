@@ -25,13 +25,13 @@ const posts: PostType[] = [
   },
   {
     id: "3",
-    image: image3,
+    image: image1,
     title: "Curly Updo",
     tags: [Tags.Curly, Tags.Updo, Tags.Brunette],
   },
   {
     id: "4",
-    image: image3,
+    image: image1,
     title: "Classic Bob Cut",
     tags: [Tags.ShortHair, Tags.BobCut, Tags.Straight],
   },

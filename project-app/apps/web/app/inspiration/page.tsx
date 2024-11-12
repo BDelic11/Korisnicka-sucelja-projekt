@@ -42,7 +42,7 @@ export default async function InspirationPage(props: {
       <section className="flex w-full items-center justify-between">
         <h1 className={` text-2xl`}>Inspiration Posts</h1>
       </section>
-      <Search placeholder="Search invoices..." />
+      <Search placeholder="Search inspiration..." />
       {/* <section className="mt-4 flex items-center justify-between gap-2 md:mt-8">
       </section> */}
       <Suspense key={query} fallback={<Loading />}>

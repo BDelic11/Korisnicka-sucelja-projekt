@@ -13,13 +13,16 @@ export const getAllUsers = cache(async () => {
   }
 });
 
-export const getNameBySession = cache(async (userId: string) => {
+export const getNameBySession = cache(async (userId: string | null) => {
+  if (!userId) {
+    return null;
+  }
   const user = await db
     .select({ name: users.name })
     .from(users)
     .where(eq(users.id, userId))
     .limit(1);
-  return user[0] || null;
+  return user[0];
 });
 
 export const getUserById = cache(async (userId: string) => {

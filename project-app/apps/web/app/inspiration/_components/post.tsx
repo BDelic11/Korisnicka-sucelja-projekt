@@ -14,14 +14,17 @@ import {
 
 const Post = ({ post }: { post: PostType }) => {
   return (
-    <div key={post.id} className="w-full h-auto md:h-[400px]">
+    <div
+      key={post.id}
+      className="w-full h-auto md:h-[400px] border-2 border-gray-300 flex flex-col items-center justify-center"
+    >
       <Dialog>
         <DialogTrigger>
           {" "}
           <Image
             src={post.image}
             alt={post.title}
-            className="w-full h-full md:h-auto object-contain"
+            className="w-full h-[400px] md:h-[200px] object-cover items-center m-auto"
           />
         </DialogTrigger>
         <DialogContent>
