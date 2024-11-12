@@ -7,9 +7,10 @@ import { Tags } from "@repo/db/types/post";
 import image1 from "@/public/images/illustration-1.svg";
 import image2 from "@/public/images/illustration-2.svg";
 import image3 from "@/public/images/image3.jpg";
+import { Post as PostType } from "@repo/db/types/post";
 import Post from "./post";
 
-const posts: Post[] = [
+const posts: PostType[] = [
   {
     id: "1",
     image: image1,
