@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import LayoutContainer from "@/components/ui/container";
 import { Grid } from "@/components/ui/grid";
 
-export default function AboutPage() {
+export default async function AboutPage() {
   return (
     <LayoutContainer className="pt-20 h-screen  md:pt-20">
       <section className="flex flex-col  justify-center align-middle md:flex-row md:justify-between md:align-middle">

@@ -1,62 +1,39 @@
-// "use server";
+"use server";
 
-// import * as z from "zod";
+import * as z from "zod";
 
-// import bcrypt from "bcryptjs";
+import bcrypt from "bcryptjs";
 
-// import { db, users } from "@repo/db";
+import { loginSchema } from "@repo/db/schemas/login";
+// import { checkUserByUsername, getUserByEmail } from "./user";
+import { getUserByEmail } from "./utils/users";
+import { createSession } from "@/lib/session";
 
-// import { registerSchema } from "@repo/db/schemas/register";
-// // import { checkUserByUsername, getUserByEmail } from "./user";
-// import { redirect } from "next/navigation";
+export async function login(values: z.infer<typeof loginSchema>) {
+  const validatedFields = loginSchema.safeParse(values);
 
-// export const register = async (values: z.infer<typeof registerSchema>) => {
-//   const validatedFields = registerSchema.safeParse(values);
+  if (!validatedFields.success) {
+    return { error: "Wrong input. Try again!" };
+  }
 
-//   if (!validatedFields.success) {
-//     return { error: "Wrong input. Try again!" };
-//   }
+  const { email, password } = validatedFields.data;
 
-//   const { username, email, password, name, surname } = validatedFields.data;
-//   const hashedPassword = await bcrypt.hash(password, 10);
+  const user = await getUserByEmail(email);
 
-//   const existingUser = await getUserByEmail(email);
+  if (!user || !user.password) {
+    return { error: "There is no user with that email!" };
+  }
 
-//   if (existingUser) {
-//     return { error: "Email se već koristi." };
-//   }
-//   const { success, error: usernameError } = await checkUserByUsername(username);
+  console.log(password, user.password);
+  const isCorrectPassword = await bcrypt.compare(password, user.password);
 
-//   if (usernameError || !success) {
-//     return { error: usernameError };
-//   }
+  if (!isCorrectPassword) {
+    return { error: "Wrong password!" };
+  }
 
-//   const initialSaldoCents = 20000;
+  await createSession(user.id);
 
-//   const createdUser = await prismadb.user.create({
-//     data: {
-//       username,
-//       surname,
-//       email,
-//       password: hashedPassword,
-//       name,
-//       temporaryUserWallet: {
-//         create: {
-//           saldo: initialSaldoCents,
-//         },
-//       },
-//       // Added saldo on temporary wallet or faculty purposess
-//     },
-//     include: {
-//       temporaryUserWallet: true,
-//     },
-//   });
+  //   redirect("/");
 
-//   if (!createdUser) {
-//     return { error: "Greška u registraciji korisnika." };
-//   }
-
-//   // verification token TODO
-
-//   return { success: "Uspješno ste se registrirali!" };
-// };
+  return { success: "Uspješno ste se registrirali!" };
+}

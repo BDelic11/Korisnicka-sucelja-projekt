@@ -29,6 +29,13 @@
       "when": 1731087216957,
       "tag": "0003_sour_steel_serpent",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1731339094004,
+      "tag": "0004_violet_white_tiger",
+      "breakpoints": true
     }
   ]
 }
