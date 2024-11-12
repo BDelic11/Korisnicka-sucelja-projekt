@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import { Post } from "@repo/db/types/post";
+import { Post as PostType } from "@repo/db/types/post";
 
 //components
 import {
@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const Post = ({ post }: { post: Post }) => {
+const Post = ({ post }: { post: PostType }) => {
   return (
     <div key={post.id} className="w-full h-auto md:h-[400px]">
       <Dialog>
@@ -38,14 +38,6 @@ const Post = ({ post }: { post: Post }) => {
           </DialogHeader>
         </DialogContent>
       </Dialog>
-
-      {/* <h1>{post.title}</h1>
-      <Image src={post.image} alt={post.title} className="w" />
-      <div className="tags">
-        {post.tags.map((tag, index) => (
-          <span key={index}>{tag}</span>
-        ))}
-      </div> */}
     </div>
   );
 };
