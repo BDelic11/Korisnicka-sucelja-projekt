@@ -12,7 +12,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-const Post: React.FC<PostProps> = ({ post }: { post: Post }) => {
+type PostProps = {
+  post: Post;
+};
+
+const Post: React.FC<PostProps> = ({ post }) => {
   return (
     <div key={post.id} className="w-full h-auto md:h-[400px]">
       <Dialog>
