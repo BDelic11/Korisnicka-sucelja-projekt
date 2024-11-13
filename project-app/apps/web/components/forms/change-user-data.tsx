@@ -3,12 +3,11 @@ import { Loader2 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 //schemas
-import { loginSchema as formSchema } from "@repo/db/schemas/login";
+import { updateUserSchema as formSchema } from "@repo/db/schemas/change-user-data";
 
 //components
 import { Button } from "@/components/ui/button";
@@ -22,13 +21,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
-import { login } from "@/actions/login";
+import { changeUserProfileData } from "@/actions/users";
 import FormError from "../ui/form-error";
 
-export function LoginForm() {
+export function ProfileForm({ user }: { user: any }) {
   const { toast } = useToast();
-  const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,39 +33,34 @@ export function LoginForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      name: user.name,
+      email: user.email,
     },
   });
 
-  async function handleLogin(formData: z.infer<typeof formSchema>) {
+  async function handleChangeUserData(formData: z.infer<typeof formSchema>) {
     setIsLoading(true);
+    setError("");
 
-    const response = await login(formData);
-
-    if (response.success) {
+    const response = await changeUserProfileData(formData);
+    if (response.error) {
+      setError(response.error);
+    } else if (response.success) {
       toast({
         title: `${response.success}`,
-        description: `Welcome, ${formData.email}!`,
+        description: `Successfully changed data!`,
       });
-
-      router.push("/");
-    } else if (response.error) {
-      setError(response.error);
     }
+
     setIsLoading(false);
   }
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleLogin)}
-        className="space-y-4 flex flex-col md:w-1/3"
+        onSubmit={form.handleSubmit(handleChangeUserData)}
+        className="space-y-4 flex flex-col md:w-2/3"
       >
-        <h1 className="md:h-full text-left md:my-6 scroll-m-20 text-4xl font-extrabold tracking-tight  lg:text-5xl">
-          Login Form
-        </h1>
-
         <FormField
           control={form.control}
           name="email"
@@ -76,35 +68,25 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="you@example.com" {...field} />
+                <Input type="email" {...field} />
               </FormControl>
-              <FormDescription>Enter your email address.</FormDescription>
+              <FormDescription>Enter another email address.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* Password field */}
         <FormField
           control={form.control}
-          name="password"
+          name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  placeholder="••••••••"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e); // Important to preserve hook form's state
-                    setError(""); // Clear error on change
-                  }}
-                />
+                <Input type="text" {...field} />
               </FormControl>
               <FormDescription>
-                Enter a strong password (at least 8 characters, including upper,
-                lower, number, and special character).
+                Enter a user name you would like to switch to.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -122,17 +104,12 @@ export function LoginForm() {
           {isLoading ? (
             <>
               <Loader2 className="animate-spin" />
-              <p>Logging in</p>
+              <p>Changing</p>
             </>
           ) : (
-            "Log in"
+            "Change user data"
           )}
         </Button>
-        <Link href="/register">
-          <p className="flex justify-center my-4 leading-7 text-gray-600 cursor-pointer">
-            Don&rsquo;t have an account?
-          </p>
-        </Link>
       </form>
     </Form>
   );

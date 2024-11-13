@@ -37,6 +37,18 @@ export const getUserById = cache(async (userId: string) => {
     throw new Error("Failed to fetch user data.");
   }
 });
+export const getUserAllDataById = cache(async (userId: string) => {
+  try {
+    const user = await db
+      .select({ name: users.name, email: users.email, id: users.id })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+    return user[0] || null;
+  } catch (error) {
+    throw new Error("Failed to fetch user data.");
+  }
+});
 
 export const getUserByEmail = cache(async (email: string) => {
   try {

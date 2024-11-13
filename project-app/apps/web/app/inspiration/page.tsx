@@ -22,14 +22,17 @@ import Search from "@/components/ui/search";
 import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
 import LayoutContainer from "@/components/ui/container";
+import FilterButtons from "./_components/filter-buttons";
 
 export default async function InspirationPage(props: {
   searchParams?: Promise<{
     query?: string;
+    search?: string;
   }>;
 }) {
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
+  const search = searchParams?.search || "";
 
   // make me db call to drizzle for fetching these posts from search params and query
   // now write the db logic here in server component
@@ -45,8 +48,9 @@ export default async function InspirationPage(props: {
       <Search placeholder="Search inspiration..." />
       {/* <section className="mt-4 flex items-center justify-between gap-2 md:mt-8">
       </section> */}
+      <FilterButtons />
       <Suspense key={query} fallback={<Loading />}>
-        <PostsGrid query={query} />
+        <PostsGrid query={query} search={search} />
       </Suspense>
     </LayoutContainer>
   );

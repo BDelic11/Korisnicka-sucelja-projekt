@@ -1,10 +1,10 @@
 import { notFound, redirect } from "next/navigation";
-import { verifySession } from "@/lib/verifySession";
 
 //types
 import { User } from "@repo/db/types/user";
 
 //actions
+import { verifySession } from "@/lib/verifySession";
 import { getAllUsers, getNameBySession } from "../actions/utils/users";
 
 //components
