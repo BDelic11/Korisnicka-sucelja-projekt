@@ -19,7 +19,7 @@
 ### Semester Project
 
 - Link to production version: [**Production Version**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
-- Link to registration page: [**Production Version**](https://stylist-inspiration-web.vercel.app/register)
+- Link to registration page: [**Register page production**](https://stylist-inspiration-web.vercel.app/register)
 - Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
