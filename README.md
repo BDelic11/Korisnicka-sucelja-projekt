@@ -24,6 +24,8 @@ Middleware is used so when clicked on inspiration page you need to be logged in 
 Also there is profile page in right avatar icon and logout button. 
 So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
 
+##Following links are up to date and working
+
 - Link to production version: [**Production Version**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
 - Link to registration page: [**Register page production**](https://stylist-inspiration-web.vercel.app/register)
 - Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
