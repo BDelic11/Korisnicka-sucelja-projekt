@@ -44,6 +44,7 @@ const FilterButtons = ({ tag, index }: FilterButtonsProps) => {
       variant={isActive ? "default" : "outline"}
       onClick={() => handleClick(tag)}
       key={index + tag}
+      className="cursor-pointer text-nowrap"
     >
       {tag}
     </Badge>

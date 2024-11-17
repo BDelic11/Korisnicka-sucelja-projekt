@@ -16,7 +16,7 @@ const Post = ({ post }: { post: PostType }) => {
   return (
     <div
       key={post.id}
-      className=" relative border-2 w-full h-60 md:h-96 border-gray-300 overflow-hidden"
+      className=" relative border-2 w-full h-36 md:h-96 border-transparent overflow-hidden"
     >
       <Dialog>
         <DialogTrigger>
@@ -27,7 +27,7 @@ const Post = ({ post }: { post: PostType }) => {
             fill
             className="object-cover w-full h-26 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:brightness-75"
           />
-          <div className="flex flex-row gap-1 text-gray-400 text-xs absolute bottom-0 left-0 pb-1 pl-1">
+          <div className="hidden md:flex flex-row gap-1 text-gray-400 text-xs absolute bottom-0 left-0 pb-1 pl-1">
             {post.tags.map((tag, index) => (
               <p key={index}>#{tag}</p>
             ))}

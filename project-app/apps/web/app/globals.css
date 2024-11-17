@@ -16,6 +16,14 @@ select:-webkit-autofill {
   -webkit-text-fill-color: #000 !important; /* Set text color to black or your desired color */
 }
 
+.hide-scrollbar {
+  scrollbar-width: none; /* For Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera */
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

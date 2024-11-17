@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function InspirationSkeleton() {
   return (
-    <div className="p-4 pt-8 space-y-4">
+    <div className="p-4 pt-8 space-y-4 min-h-full px-6  md:px-24 lg:px-52">
       {/* Search Bar */}
       {/* <Skeleton className="h-10 w-full rounded-full" />
 

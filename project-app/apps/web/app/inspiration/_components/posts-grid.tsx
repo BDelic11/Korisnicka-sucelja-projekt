@@ -119,7 +119,7 @@ export function PostsGrid({
       {/* <p className="text-red-500">query:{query}</p>
       <p className="text-red-500">search:{search}</p> */}
 
-      <article className="grid grid-cols-3 md:grid-cols-4 gap-1 md:gap-0 w-full h-[200px] md:mt-10">
+      <article className="grid grid-cols-3 md:grid-cols-4  md:gap-0 w-full h-full  md:mt-10">
         {filteredPosts.map((post: any) => (
           <Post key={post.id} post={post} />
         ))}

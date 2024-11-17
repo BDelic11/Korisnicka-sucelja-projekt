@@ -2,8 +2,6 @@
 
 import * as z from "zod";
 
-import bcrypt from "bcryptjs";
-
 import { db, eq, users } from "@repo/db";
 
 import { updateUserSchema } from "@repo/db/schemas/change-user-data";

@@ -113,38 +113,40 @@ export async function Navbar() {
             icon={icon.icon}
           />
         ))}
-        {isAuth ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger>
-              <Avatar>
-                <AvatarFallback>
-                  {user?.name.slice(0, 2).toLocaleUpperCase()}
-                </AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <Link href={"/profile"}>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-              </Link>
-              <form action={deleteSession} className="w-full cursor-pointer">
-                <button className="w-full">
-                  <DropdownMenuItem className="text-red-500">
-                    Logout
-                  </DropdownMenuItem>
-                </button>
-              </form>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          // <Button asChild>
-          //   <Link className="mt-20" href="/login">
-          //     Login
-          //   </Link>
-          // </Button>
-          <p>Not logged in</p>
-        )}
+        <div className="hidden md:block">
+          {isAuth ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar>
+                  <AvatarFallback>
+                    {user?.name.slice(0, 2).toLocaleUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href={"/profile"}>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                </Link>
+                <form action={deleteSession} className="w-full cursor-pointer">
+                  <button className="w-full">
+                    <DropdownMenuItem className="text-red-500">
+                      Logout
+                    </DropdownMenuItem>
+                  </button>
+                </form>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            // <Button asChild>
+            //   <Link className="mt-20" href="/login">
+            //     Login
+            //   </Link>
+            // </Button>
+            <p>Not logged in</p>
+          )}
+        </div>
       </ul>
     </nav>
   );

@@ -16,13 +16,13 @@
 //     </LayoutContainer>
 //   );
 // }
-
-import Loading from "@/app/loading";
 import Search from "@/components/ui/search";
 import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
 import LayoutContainer from "@/components/ui/container";
 import FilterButtons from "./_components/filter-buttons";
+import Loading from "@/app/loading";
+import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
 
 export default async function InspirationPage(props: {
   searchParams?: Promise<{
@@ -49,7 +49,7 @@ export default async function InspirationPage(props: {
       {/* <section className="mt-4 flex items-center justify-between gap-2 md:mt-8">
       </section> */}
       <FilterButtons />
-      <Suspense key={query} fallback={<Loading />}>
+      <Suspense fallback={<InspirationSkeleton />}>
         <PostsGrid query={query} search={search} />
       </Suspense>
     </LayoutContainer>
