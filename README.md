@@ -18,6 +18,12 @@
 
 ### Semester Project
 
+Register and Login is already done, it is made using cookies with whole authentification and authorization and deployed.
+So it is possible to register new account or login if its already registered.
+Middleware is used so when clicked on inspiration page you need to be logged in first so make sure you login or register if you want to see that page.
+Also there is profile page in right avatar icon and logout button. 
+So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
+
 - Link to production version: [**Production Version**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
 - Link to registration page: [**Register page production**](https://stylist-inspiration-web.vercel.app/register)
 - Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
