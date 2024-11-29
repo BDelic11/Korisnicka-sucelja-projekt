@@ -2,18 +2,18 @@
 
 import * as z from "zod";
 import bcrypt from "bcryptjs";
+import { v4 as uuidv4 } from "uuid";
 
-import { createSession } from "@repo/ui/lib/session";
 import { db, users } from "@repo/db";
 
+//schema
 import { registerSchema } from "@repo/db/schemas/register";
-// import { checkUserByUsername, getUserByEmail } from "./user";
-// import { redirect } from "next/navigation";
-import { User } from "@repo/db/types/user";
-import { randomInt } from "crypto";
-import Error from "next/error";
 
-export const register = async (values: z.infer<typeof registerSchema>) => {
+//actions
+import { createSession } from "@/lib/session";
+import { checkUserByEmail } from "./utils/users";
+
+export async function register(values: z.infer<typeof registerSchema>) {
   const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -21,28 +21,24 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
   }
 
   const { name, surname, email, password } = validatedFields.data;
+
+  //hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  //   const existingUser = await getUserByEmail(email);
+  //check used mail
+  const existingUser = await checkUserByEmail(email);
 
-  //   if (existingUser) {
-  //     return { error: "Email se već koristi." };
-  //   }
-  //   const { success, error: usernameError } = await checkUserByUsername(username);
-
-  //   if (usernameError || !success) {
-  //     return { error: usernameError };
-  //   }
-
-  //   if (!createdUser) {
-  //     return { error: "Greška u registraciji korisnika." };
-  //   }
+  if (existingUser === true) {
+    return { error: "Email se vec koristi" };
+  }
 
   // verification token TODO
+  const userId = uuidv4();
 
   const [createdUser] = await db
     .insert(users)
     .values({
+      id: userId,
       name,
       surname,
       email,
@@ -54,7 +50,7 @@ export const register = async (values: z.infer<typeof registerSchema>) => {
     return { error: "Nije kreiran user!" };
   }
 
-  await createSession(createdUser.id);
+  await createSession(userId);
 
   return { success: "Uspješno ste se registrirali!" };
-};
+}
