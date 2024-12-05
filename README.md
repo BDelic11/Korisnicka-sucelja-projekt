@@ -21,7 +21,7 @@
 Register and Login is already done, it is made using cookies with whole authentification and authorization and deployed.
 So it is possible to register new account or login if its already registered.
 Middleware is used so when clicked on inspiration page you need to be logged in first so make sure you login or register if you want to see that page.
-Also there is profile page in right avatar icon and logout button. 
+Also there is profile page in right avatar icon and logout button.
 So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
 
 ##Following links are up to date and working
@@ -35,7 +35,7 @@ So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
 
 - Link to Assignment 1: [**Assignment 1**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/1-assignment/Snimka-figma-final.mp4) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**Assignment 2**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/2-assignment/2-assignment.pdf) <!-- Replace with actual URL -->
-- Link to Assignment 3: [**Assignment 3**](URL_TO_ASSIGNMENT_3) <!-- Replace with actual URL -->
+- Link to Assignment 4: [**Assignment 4**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/4-assignment/High-Fidelity.png) <!-- Replace with actual URL -->
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements
