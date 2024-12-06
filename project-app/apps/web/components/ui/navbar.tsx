@@ -42,12 +42,6 @@ const rightIcons = [
   },
 ];
 const desktopIcons = [
-  // {
-  //   id: 1,
-  //   label: "New & Featured",
-  //   linkTo: "/",
-  //   classname: "",
-  // },
   {
     id: 1,
     label: "About us",
@@ -60,18 +54,13 @@ const desktopIcons = [
     linkTo: "/inspiration",
     classname: "",
   },
+
   // {
   //   id: 3,
-  //   label: "Uskrs",
-  //   linkTo: "/products/easter",
+  //   label: "Admin",
+  //   linkTo: "/admin",
   //   classname: "",
   // },
-  {
-    id: 3,
-    label: "Admin",
-    linkTo: "/admin",
-    classname: "",
-  },
 ];
 
 export async function Navbar() {
