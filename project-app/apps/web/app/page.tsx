@@ -8,10 +8,11 @@ import illustration from "@/public/images/stylist illustration blue.svg";
 import { Button } from "@/components/ui/button";
 import LayoutContainer from "@/components/ui/container";
 import { Grid } from "@/components/ui/grid";
+import WhyChooseUsSection from "@/components/whyChooseUsSection";
 
 export default async function Home() {
   return (
-    <LayoutContainer className="pt-20 h-screen md:pt-0 ">
+    <LayoutContainer className="pt-20 min-h-screen md:pt-0 ">
       <section className="flex flex-col  justify-center align-middle md:flex-row md:justify-between md:align-middle">
         <div className="flex flex-col align-middle justify-center w-full">
           <h1 className="scroll-m-20 text-6xl font-extrabold tracking-tight md:mb-4 lg:text-6xl text-gray-800">
@@ -38,6 +39,7 @@ export default async function Home() {
           className=" h-72 w-auto "
         />
       </section>
+      <WhyChooseUsSection />
     </LayoutContainer>
   );
 }
