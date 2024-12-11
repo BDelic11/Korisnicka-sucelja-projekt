@@ -20,9 +20,9 @@ const icons = [
   },
   {
     id: "3",
-    title: "Personalized Experience",
+    title: "Easy to Use",
     icon: icon3,
-    description: "We provide a personalized experience for each user",
+    description: "Find what you are looking for with ease",
   },
 ];
 
