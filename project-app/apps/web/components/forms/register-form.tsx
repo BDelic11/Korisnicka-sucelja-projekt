@@ -27,12 +27,15 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { register } from "@/actions/register";
+import FormError from "../ui/form-error";
 
 export function RegisterForm() {
   const [currentStep, setCurrentStep] = useState(1);
-  //   const { isLoading } = useCreateUser();
   const { toast } = useToast();
   const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -58,12 +61,20 @@ export function RegisterForm() {
 
   // Function to handle form submission
   async function handleRegister(formData: z.infer<typeof registerSchema>) {
-    await register(formData);
-    toast({
-      title: "Registration Successful",
-      description: `Welcome, ${formData.name}!`,
-    });
-    router.push("/");
+    setIsLoading(true);
+    const response = await register(formData);
+
+    if (response.success) {
+      toast({
+        title: `${response.success}`,
+        description: `Welcome, ${formData.name}!`,
+      });
+
+      router.push("/");
+    } else if (response.error) {
+      setError(response.error);
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -171,9 +182,16 @@ export function RegisterForm() {
               )}
             />
 
+            {error && <FormError message={error} />}
+
             {/* Submit button for second part */}
-            <Button size="default" className="mt-10 w-full " type="submit">
-              Register
+            <Button
+              size="default"
+              className="mt-10 w-full "
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Register"}
             </Button>
           </>
         )}
