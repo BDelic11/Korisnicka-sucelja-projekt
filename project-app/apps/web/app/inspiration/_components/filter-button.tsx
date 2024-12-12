@@ -1,8 +1,8 @@
-"use client";
-import { Badge } from "@/components/ui/badge";
-import { Tags } from "@repo/db/types/post";
-import { useState } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+'use client';
+import { Badge } from '@/components/ui/badge';
+import { Tags } from '@repo/db/types/post';
+import { useState } from 'react';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
 interface FilterButtonsProps {
   tag: Tags;
@@ -19,21 +19,21 @@ const FilterButtons = ({ tag, index }: FilterButtonsProps) => {
     setIsActive(!isActive);
 
     const params = new URLSearchParams(searchParams);
-    const tags = params.get("query") ? params.get("query")!.split(",") : [];
+    const tags = params.get('query') ? params.get('query')!.split(',') : [];
 
     if (tags.includes(tag)) {
       // Remove the tag if it already exists
       const updatedTags = tags.filter((existingTag) => existingTag !== tag);
-      params.set("query", updatedTags.join(","));
+      params.set('query', updatedTags.join(','));
     } else {
       // Append the new tag if it doesn't exist
       tags.push(tag);
-      params.set("query", tags.join(","));
+      params.set('query', tags.join(','));
     }
 
     // Remove 'query' parameter if tags are empty
     if (!tags.length) {
-      params.delete("query");
+      params.delete('query');
     }
 
     // Replace the URL with the updated query string
@@ -41,10 +41,10 @@ const FilterButtons = ({ tag, index }: FilterButtonsProps) => {
   };
   return (
     <Badge
-      variant={isActive ? "default" : "outline"}
+      variant={isActive ? 'default' : 'outline'}
       onClick={() => handleClick(tag)}
       key={index + tag}
-      className="cursor-pointer text-nowrap"
+      className='cursor-pointer text-nowrap'
     >
       {tag}
     </Badge>
