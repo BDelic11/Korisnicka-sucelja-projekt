@@ -1,22 +1,7 @@
-import { StaticImageData } from "next/image";
-
 export type Post = {
-  id: string;
-  image: StaticImageData;
+  id: number;
+  imageUrl: string;
   title: string;
-  tags: Tags[];
+  likesNumber: number;
+  createdAt: Date;
 };
-
-export enum Tags {
-  LongHair = "long-hair",
-  ShortHair = "short-hair",
-  Curly = "curly",
-  Straight = "straight",
-  Wavy = "wavy",
-  Blonde = "blonde",
-  Brunette = "brunette",
-  Updo = "updo",
-  Braids = "braids",
-  BobCut = "bob-cut",
-  Ponytail = "ponytail",
-}
