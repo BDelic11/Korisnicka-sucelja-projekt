@@ -27,7 +27,7 @@ export const salons = pgTable('salons', {
   locationUrl: varchar('location_url').notNull(),
   followersNumber: integer('followers_number').default(0),
   createdAt: timestamp('created_at').defaultNow(),
-  adminId: varchar('admin_id')
+  adminId: integer('admin_id')
     .references(() => users.id)
     .notNull(),
 });
@@ -38,7 +38,7 @@ export const posts = pgTable('posts', {
   title: varchar('title', { length: 100 }).notNull(),
   likesNumber: integer('likes_number').default(0),
   createdAt: timestamp('created_at').defaultNow(),
-  salonId: varchar('salon_id')
+  salonId: integer('salon_id')
     .references(() => salons.id)
     .notNull(),
 });
