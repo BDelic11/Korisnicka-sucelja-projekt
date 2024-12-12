@@ -1,23 +1,23 @@
-"use server";
+'use server';
 
-import * as z from "zod";
-import bcrypt from "bcryptjs";
-import { v4 as uuidv4 } from "uuid";
+import * as z from 'zod';
+import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 
-import { db, users } from "@repo/db";
+import { db, users } from '@repo/db';
 
 //schema
-import { registerSchema } from "@repo/db/schemas/register";
+import { registerSchema } from '@repo/db/schemas/register';
 
 //actions
-import { createSession } from "@/lib/session";
-import { checkUserByEmail } from "./utils/users";
+import { createSession } from '@/lib/session';
+import { checkUserByEmail } from './utils/users';
 
 export async function register(values: z.infer<typeof registerSchema>) {
   const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Neispravan unos!" };
+    return { error: 'Neispravan unos!' };
   }
 
   const { name, surname, email, password } = validatedFields.data;
@@ -29,16 +29,14 @@ export async function register(values: z.infer<typeof registerSchema>) {
   const existingUser = await checkUserByEmail(email);
 
   if (existingUser === true) {
-    return { error: "Email se vec koristi" };
+    return { error: 'Email se vec koristi' };
   }
 
   // verification token TODO
-  const userId = uuidv4();
 
   const [createdUser] = await db
     .insert(users)
     .values({
-      id: userId,
       name,
       surname,
       email,
@@ -47,10 +45,10 @@ export async function register(values: z.infer<typeof registerSchema>) {
     .returning({ id: users.id });
 
   if (!createdUser) {
-    return { error: "Nije kreiran user!" };
+    return { error: 'Nije kreiran user!' };
   }
 
-  await createSession(userId);
+  await createSession(createdUser.id);
 
-  return { success: "Uspješno ste se registrirali!" };
+  return { success: 'Uspješno ste se registrirali!' };
 }
