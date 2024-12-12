@@ -1,7 +1,7 @@
-import "server-only";
+import 'server-only';
 
-import { db, eq, users } from "@repo/db";
-import { cache } from "react";
+import { db, eq, users } from '@repo/db';
+import { cache } from 'react';
 
 export const getAllUsers = cache(async () => {
   try {
@@ -9,11 +9,11 @@ export const getAllUsers = cache(async () => {
 
     return usersData;
   } catch (error) {
-    throw new Error("Failed to fetch users data.");
+    throw new Error('Failed to fetch users data.');
   }
 });
 
-export const getNameBySession = cache(async (userId: string | null) => {
+export const getNameBySession = cache(async (userId: number | null) => {
   if (!userId) {
     return null;
   }
@@ -25,7 +25,7 @@ export const getNameBySession = cache(async (userId: string | null) => {
   return user[0];
 });
 
-export const getUserById = cache(async (userId: string) => {
+export const getUserById = cache(async (userId: number) => {
   try {
     const user = await db
       .select({ name: users.name })
@@ -34,10 +34,10 @@ export const getUserById = cache(async (userId: string) => {
       .limit(1);
     return user[0] || null;
   } catch (error) {
-    throw new Error("Failed to fetch user data.");
+    throw new Error('Failed to fetch user data.');
   }
 });
-export const getUserAllDataById = cache(async (userId: string) => {
+export const getUserAllDataById = cache(async (userId: number) => {
   try {
     const user = await db
       .select({ name: users.name, email: users.email, id: users.id })
@@ -46,7 +46,7 @@ export const getUserAllDataById = cache(async (userId: string) => {
       .limit(1);
     return user[0] || null;
   } catch (error) {
-    throw new Error("Failed to fetch user data.");
+    throw new Error('Failed to fetch user data.');
   }
 });
 
@@ -59,7 +59,7 @@ export const getUserByEmail = cache(async (email: string) => {
       .limit(1);
     return user[0] || null;
   } catch (error) {
-    throw new Error("Failed to fetch user data.");
+    throw new Error('Failed to fetch user data.');
   }
 });
 
