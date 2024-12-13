@@ -1,6 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import React from "react";
-import { Post as PostType } from "@repo/db/types/post";
+// import { Post as PostType } from "@repo/db/types/post";
 
 //components
 import {
@@ -11,8 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { getPostTags } from "@/actions/utils/tags";
+import { Post } from "@repo/db/types/post";
 
-const Post = ({ post }: { post: PostType }) => {
+interface PostProps {
+  post: Post;
+}
+
+const Post = async ({ post }: PostProps) => {
+  const tags = await getPostTags(post.id);
+
   return (
     <div
       key={post.id}
@@ -22,28 +30,36 @@ const Post = ({ post }: { post: PostType }) => {
         <DialogTrigger>
           {" "}
           <Image
-            src={post.image}
+            src={post.imageUrl}
             alt={post.title}
             fill
             className="object-cover w-full h-26 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:brightness-75"
           />
           <div className="hidden md:flex flex-row gap-1 text-gray-400 text-xs absolute bottom-0 left-0 pb-1 pl-1">
-            {post.tags.map((tag, index) => (
-              <p key={index}>#{tag}</p>
-            ))}
+            {tags ? (
+              tags.map((tag: any) => <p key={tag.id}>#{tag.name}</p>)
+            ) : (
+              <p>no tags</p>
+            )}
           </div>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{post.title}</DialogTitle>
-            <DialogDescription>
-              <Image src={post.image} alt={post.title} className="w" />
-              <div className="tags">
-                {post.tags.map((tag, index) => (
-                  <span key={index}>{tag}</span>
-                ))}
-              </div>
-            </DialogDescription>
+            <Image
+              className="object-cover h-full "
+              src={post.imageUrl}
+              alt={post.title}
+              width={200}
+              height={200}
+            />
+            <div className="tags">
+              {tags ? (
+                tags.map((tag: any) => <span key={tag.id}>{tag.name}</span>)
+              ) : (
+                <p>no tags</p>
+              )}
+            </div>
           </DialogHeader>
         </DialogContent>
       </Dialog>

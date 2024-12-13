@@ -46,8 +46,6 @@ export default async function InspirationPage(props: {
         <h1 className={` text-2xl`}>Inspiration Posts</h1>
       </section>
       <Search placeholder="Search inspiration..." />
-      {/* <section className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-      </section> */}
       <FilterButtons />
       <Suspense fallback={<InspirationSkeleton />}>
         <PostsGrid query={query} search={search} />

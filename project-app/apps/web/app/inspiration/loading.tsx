@@ -1,5 +1,5 @@
-// import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
+import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
 
-// export default function Loading() {
-//   return <InspirationSkeleton />;
-// }
+export default function Loading() {
+  return <InspirationSkeleton />;
+}
