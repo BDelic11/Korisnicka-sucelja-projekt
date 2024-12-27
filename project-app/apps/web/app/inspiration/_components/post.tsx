@@ -12,10 +12,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { getPostTags } from "@/actions/utils/tags";
-import { Post } from "@repo/db/types/post";
+// import { Post } from "@repo/db/types/post";
 
 interface PostProps {
-  post: Post;
+  post: any;
 }
 
 const Post = async ({ post }: PostProps) => {
