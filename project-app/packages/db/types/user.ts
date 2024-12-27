@@ -1,7 +1,7 @@
-import { UserRole } from './userRole';
+import { UserRole } from "./userRole";
 
 export type User = {
-  id: string;
+  id: number;
   name: string;
   surname: string;
   email: string;
