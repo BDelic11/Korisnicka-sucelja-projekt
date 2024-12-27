@@ -116,3 +116,20 @@
 //     </LayoutContainer>
 //   );
 // }
+
+export default async function SalonPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const salonId = (await params).id;
+
+  return (
+    <main className=" min-h-screen flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24">
+      <center>
+        <p>Welcome to salon page</p>
+        <p>Salon ID:{salonId}</p>
+      </center>
+    </main>
+  );
+}

@@ -1,21 +1,4 @@
-// import LayoutContainer from "@/components/ui/container";
-// import { CommandDemo } from "./_components/command-menu";
-// import { Suspense } from "react";
-// import { PostsGrid } from "./_components/posts-grid";
 
-// export default async function InspirationPage() {
-//   return (
-//     <LayoutContainer>
-//       <p>Welcome to inspiration</p>
-//       <CommandDemo />
-//       {/* search */}
-//       {/* filters */}
-//       <Suspense fallback="loading">
-//         <PostsGrid />
-//       </Suspense>
-//     </LayoutContainer>
-//   );
-// }
 import Search from "@/components/ui/search";
 import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
