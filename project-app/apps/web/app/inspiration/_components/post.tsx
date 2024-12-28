@@ -28,20 +28,25 @@ const Post = async ({ post }: PostProps) => {
       className=" relative border-2 w-full h-36 md:h-96 border-transparent overflow-hidden"
     >
       <Dialog>
-        <DialogTrigger>
+        <DialogTrigger className="w-full h-full group">
           {" "}
           <Image
             src={post.imageUrl}
             alt={post.title}
             fill
-            className="object-cover w-full h-26 transition-transform duration-300 ease-in-out transform hover:scale-105 hover:brightness-75"
+            className="object-cover w-full h-26 transition-transform duration-300 ease-in-out transform group-hover:scale-105 group-hover:brightness-75"
           />
-          <div className="hidden md:flex flex-row gap-1 text-gray-400 text-xs absolute bottom-0 left-0 pb-1 pl-1">
-            {tags ? (
-              tags.map((tag: any) => <p key={tag.id}>#{tag.name}</p>)
-            ) : (
-              <p>No tags</p>
-            )}
+          <div className="hidden  w-full h-full md:flex flex-col gap-1 text-left text-xs absolute top-4 left-2 pb-1 pl-2">
+            <h2 className=" group-hover:opacity-100  opacity-0 font-semibold text-white">
+              {post.salonName}
+            </h2>
+            <div className="group-hover:opacity-100  opacity-0  md:flex flex-row gap-1 text-gray-300 text-xs pb-1 pl-1">
+              {tags ? (
+                tags.map((tag: any) => <p key={tag.id}>#{tag.name}</p>)
+              ) : (
+                <p>No tags</p>
+              )}
+            </div>
           </div>
         </DialogTrigger>
         <DialogContent>

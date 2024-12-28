@@ -1,4 +1,3 @@
-
 import Search from "@/components/ui/search";
 import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
@@ -27,7 +26,7 @@ export default async function InspirationPage(props: {
       <section className="flex w-full items-center justify-between">
         <h1 className={` text-2xl`}>Inspiration Posts</h1>
       </section>
-      <Search placeholder="Search inspiration..." />
+      <Search placeholder="Search salons..." />
       <FilterButtons />
       <Suspense fallback={<InspirationSkeleton />}>
         <PostsGrid query={query} search={search} />
