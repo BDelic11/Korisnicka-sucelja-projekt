@@ -4,7 +4,6 @@ import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
 import LayoutContainer from "@/components/ui/container";
 import FilterButtons from "./_components/filter-buttons";
-import Loading from "@/app/loading";
 import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
 
 export default async function InspirationPage(props: {

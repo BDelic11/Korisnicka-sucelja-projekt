@@ -1,25 +1,26 @@
-import Image, { StaticImageData } from "next/image";
+import Image from "next/image";
 import React from "react";
-// import { Post as PostType } from "@repo/db/types/post";
 
 //components
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { getPostTags } from "@/actions/utils/tags";
-// import { Post } from "@repo/db/types/post";
+import { PostComponentDto as PostType } from "@repo/db/types/post";
+import { LikesComponent } from "@/components/ui/likes-component";
+import { isPostLiked } from "@/actions/utils/posts";
 
 interface PostProps {
-  post: any;
+  post: PostType;
 }
 
 const Post = async ({ post }: PostProps) => {
   const tags = await getPostTags(post.id);
+  const initialLikedBool = await isPostLiked(post.id);
 
   return (
     <div
@@ -39,7 +40,7 @@ const Post = async ({ post }: PostProps) => {
             {tags ? (
               tags.map((tag: any) => <p key={tag.id}>#{tag.name}</p>)
             ) : (
-              <p>no tags</p>
+              <p>No tags</p>
             )}
           </div>
         </DialogTrigger>
@@ -47,17 +48,28 @@ const Post = async ({ post }: PostProps) => {
           <DialogHeader>
             <DialogTitle>{post.title}</DialogTitle>
             <Image
-              className="object-cover h-full "
+              className="object-cover h-full m-auto py-10"
               src={post.imageUrl}
               alt={post.title}
               width={200}
               height={200}
             />
-            <div className="tags">
+            <div className="flex flex-row justify-between align-middle gap-2">
+              <h2 className="text-gray-700 pt-2 font-semibold">
+                {post.salonName}
+              </h2>
+              <LikesComponent
+                postId={post.id}
+                initialLikedBool={initialLikedBool}
+                title={post.title}
+                likesNumber={post.likesNumber}
+              />
+            </div>
+            <div className="font-light text-gray-500 text-sm">
               {tags ? (
                 tags.map((tag: any) => <span key={tag.id}>{tag.name}</span>)
               ) : (
-                <p>no tags</p>
+                <p>No tags</p>
               )}
             </div>
           </DialogHeader>

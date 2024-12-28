@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Post as PostType } from "@repo/db/types/post";
+import { PostComponentDto } from "@repo/db/types/post";
 import Post from "./post";
 import { getFilteredPosts } from "@/actions/utils/posts";
 
@@ -16,11 +16,11 @@ export async function PostsGrid({
     .split(",")
     .map((tag) => +tag.trim())
     .filter(Boolean);
-  // const searchTerm = search.toLowerCase().trim();
+  const searchTerm = search.toLowerCase().trim();
   console.log("tags", tags);
-  // console.log("search term", searchTerm);
+  console.log("search term", searchTerm);
 
-  const posts = await getFilteredPosts(tags);
+  const posts = await getFilteredPosts(tags, searchTerm);
 
   if (!posts.length) {
     return (
@@ -33,7 +33,7 @@ export async function PostsGrid({
   return (
     <section className="w-full md:min-h-[100vh]">
       <article className="grid grid-cols-3 md:grid-cols-4  md:gap-0 w-full h-full  md:mt-10">
-        {posts.map((post: PostType) => (
+        {posts.map((post: PostComponentDto) => (
           <Post key={post.id + post.title} post={post} />
         ))}
       </article>
