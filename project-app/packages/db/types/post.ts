@@ -15,3 +15,12 @@ export type PostComponentDto = {
   salonId: number;
   salonName: string;
 };
+
+export type PostGridDto = {
+  id: number;
+  imageUrl: string;
+  title: string;
+  salonId: number;
+  likesNumber: number | null;
+  createdAt: Date | null;
+};

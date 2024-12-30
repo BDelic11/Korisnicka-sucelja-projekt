@@ -34,7 +34,11 @@ export async function PostsGrid({
     <section className="w-full md:min-h-[100vh]">
       <article className="grid grid-cols-3 md:grid-cols-4  md:gap-0 w-full h-full  md:mt-10">
         {posts.map((post: PostComponentDto) => (
-          <Post key={post.id + post.title} post={post} />
+          <Post
+            key={post.id + post.title}
+            salonName={post.salonName}
+            post={post}
+          />
         ))}
       </article>
     </section>
