@@ -24,6 +24,10 @@ Middleware is used so when clicked on inspiration page you need to be logged in 
 Also there is profile page in right avatar icon and logout button.
 So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
 
+## Last Update
+Newly its added that on every post it is possible to like image, also click on salon name inside post, takes you to dynamic salon page that has all its posts.
+
+
 ##Following links are up to date and working
 
 - Link to production version: [**Production Version**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
