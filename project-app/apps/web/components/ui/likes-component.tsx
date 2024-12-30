@@ -47,7 +47,7 @@ export const LikesComponent = ({
         />
       )}
       <p>{likesNumber}</p>
-      {initialLikedBool ? <p>liked</p> : <p>not</p>}
+      {/* {initialLikedBool ? <p>liked</p> : <p>not</p>} */}
     </div>
   );
 };

@@ -14,7 +14,6 @@ import {
 } from "@repo/db";
 import { cache } from "react";
 import { verifySession } from "@/lib/verifySession";
-import { get } from "http";
 
 export const getAllPosts = cache(async () => {
   try {
