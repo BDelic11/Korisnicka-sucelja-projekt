@@ -54,30 +54,34 @@ const Post = async ({ salonName, ...post }: PostProps) => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="w-full h-4/5 ">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
-            <Image
-              className="object-cover h-full m-auto py-10"
-              src={imageUrl}
-              alt={title}
-              width={200}
-              height={200}
-            />
-            <div className="flex flex-row justify-between align-middle gap-2">
-              {salonName && (
-                <Link href={`/salon/${salonId}`}>
-                  <h2 className="text-gray-700 pt-2 font-semibold">
-                    {salonName}
-                  </h2>
-                </Link>
-              )}
-              <LikesComponent
-                postId={id}
-                initialLikedBool={initialLikedBool}
-                title={title}
-                likesNumber={likesNumber}
+            <div className="flex flex-col justify-between ">
+              <Image
+                className="object-cover w-full max-h-[500px] m-auto py-20"
+                src={imageUrl}
+                alt={title}
+                // fill
+                width={400}
+                height={400}
+                // className="object-cover m-auto w-full h-full py-10  "
               />
+              <div className="flex flex-ro^w justify-between align-middle gap-2">
+                {salonName && (
+                  <Link href={`/salon/${salonId}`}>
+                    <h2 className="text-gray-700 pt-2 font-semibold">
+                      {salonName}
+                    </h2>
+                  </Link>
+                )}
+                <LikesComponent
+                  postId={id}
+                  initialLikedBool={initialLikedBool}
+                  title={title}
+                  likesNumber={likesNumber}
+                />
+              </div>
             </div>
             <div className="font-light text-gray-500 text-sm">
               {tags ? (
