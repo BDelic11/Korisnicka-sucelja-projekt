@@ -23,9 +23,10 @@ So it is possible to register new account or login if its already registered.
 Middleware is used so when clicked on inspiration page you need to be logged in first so make sure you login or register if you want to see that page.
 Also there is profile page in right avatar icon and logout button.
 So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
+Newly its added that on every post it is possible to like image, also click on salon name inside post, takes you to dynamic salon page that has all its posts.
 
 ## Last Update
-Newly its added that on every post it is possible to like image, also click on salon name inside post, takes you to dynamic salon page that has all its posts.
+Updated loading on about page, filter button "clear all" added (lifted up state of active filters), using use optimistic while liking (fixed speed)
 
 
 ##Following links are up to date and working
