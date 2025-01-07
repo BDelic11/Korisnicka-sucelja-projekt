@@ -1,17 +1,15 @@
-import { Skeleton } from "@/components/ui/skeleton";
+// import { Skeleton } from "@/components/ui/skeleton";
+import ClipLoader from "react-spinners/ClipLoader";
 
-export function AboutSkeleton() {
+export function LoadingSpinner() {
   return (
-    <div className="flex flex-row justify-around">
-      <div className="flex flex-col">
-        <Skeleton className="h-10 w-full rounded-none" />{" "}
-        <Skeleton className="h-40 w-20 rounded-full" />{" "}
-      </div>
-      <div>
-        <Skeleton className="h-80 w-full rounded-none" />{" "}
-        <Skeleton className="h-80 w-full rounded-none" />{" "}
-        <Skeleton className="h-80 w-full rounded-none" />
-      </div>
+    <div className="min-h-screen flex items-center m-auto  justify-center">
+      <ClipLoader
+        color={"black"}
+        size={20}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { PostsGrid } from "./_components/posts-grid";
 import LayoutContainer from "@/components/ui/container";
 import FilterButtons from "./_components/filter-buttons";
 import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
+import { getAllTags } from "@/actions/utils/tags";
 
 export default async function InspirationPage(props: {
   searchParams?: Promise<{
@@ -11,6 +12,8 @@ export default async function InspirationPage(props: {
     search?: string;
   }>;
 }) {
+  const tagsData = await getAllTags();
+
   const searchParams = await props.searchParams;
   const query = searchParams?.query || "";
   const search = searchParams?.search || "";
@@ -27,7 +30,7 @@ export default async function InspirationPage(props: {
         <h1 className={` text-2xl`}>Inspiration Posts</h1>
       </section>
       <Search placeholder="Search salons..." />
-      <FilterButtons />
+      <FilterButtons tagsData={tagsData} />
       <Suspense fallback={<InspirationSkeleton />}>
         <PostsGrid query={query} search={search} />
       </Suspense>

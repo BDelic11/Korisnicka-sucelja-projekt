@@ -1,5 +1,5 @@
-import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
+import { LoadingSpinner } from "@/components/skeletons/about-skeleton";
 
 export default function Loading() {
-  return <InspirationSkeleton />;
+  return <LoadingSpinner />;
 }
