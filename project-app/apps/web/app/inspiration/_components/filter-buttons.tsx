@@ -1,9 +1,10 @@
-import { getAllTags } from "@/actions/utils/tags";
+"use client";
+import { useState } from "react";
 import FilterButton from "./filter-button";
 import { Tag } from "@repo/db/types/tag";
 
-const FilterButtons = async () => {
-  const tagsData = await getAllTags();
+const FilterButtons = ({ tagsData }: { tagsData: Tag[] }) => {
+  const [activeTags, setActiveTags] = useState<number[]>([]);
 
   if (!tagsData) {
     return null;
@@ -11,8 +12,18 @@ const FilterButtons = async () => {
 
   return (
     <div className="flex flex-row gap-2 cursor-pointer my-4 md:my-8 overflow-x-auto hide-scrollbar ">
+      <FilterButton
+        activeTags={activeTags}
+        setActiveTags={setActiveTags}
+        reset="Clear all"
+      />
       {tagsData.map((tag: Tag) => (
-        <FilterButton key={tag.id} tag={tag} />
+        <FilterButton
+          key={tag.id}
+          tag={tag}
+          activeTags={activeTags}
+          setActiveTags={setActiveTags}
+        />
       ))}
     </div>
   );
