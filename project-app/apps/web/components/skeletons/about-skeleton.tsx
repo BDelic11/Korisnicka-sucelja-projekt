@@ -3,10 +3,10 @@ import ClipLoader from "react-spinners/ClipLoader";
 
 export function LoadingSpinner() {
   return (
-    <div className="min-h-screen flex items-center m-auto  justify-center">
+    <div className="min-h-screen flex items-center mt-auto pb-20 md:pb-40 justify-center">
       <ClipLoader
         color={"black"}
-        size={20}
+        size={40}
         aria-label="Loading Spinner"
         data-testid="loader"
       />

@@ -1,5 +1,6 @@
-import { ProfileSkeleton } from "@/components/skeletons/profile-skeleton";
+import { LoadingSpinner } from "@/components/skeletons/about-skeleton";
+// import { ProfileSkeleton } from "@/cocmponents/skeletons/profile-skeleton";
 
 export default function Loading() {
-  return <ProfileSkeleton />;
+  return <LoadingSpinner />;
 }
