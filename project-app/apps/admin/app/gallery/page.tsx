@@ -7,18 +7,13 @@ import Link from 'next/link';
 // images
 import profileIllustration from '@/public/images/profile.svg';
 import { notFound } from 'next/navigation';
-import { getSalonById } from '@/actions/utils/salons';
+import { getSalonGallery } from '@/actions/utils/salons';
 
 import { SalonPostsGrid } from './_components/salon-images-grid';
 
-export default async function SalonPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const salonId = (await params).id;
+export default async function Gallery() {
   const { userId } = await verifySession();
-  const { salon, posts } = await getSalonById(+salonId);
+  const { salon, posts } = await getSalonGallery();
 
   if (!userId) {
     return (
