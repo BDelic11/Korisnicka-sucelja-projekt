@@ -1,12 +1,29 @@
-import { Tags } from "@repo/db/types/post";
+"use client";
+import { useState } from "react";
 import FilterButton from "./filter-button";
+import { Tag } from "@repo/db/types/tag";
 
-const FilterButtons = () => {
-  const tags = Object.values(Tags);
+const FilterButtons = ({ tagsData }: { tagsData: Tag[] }) => {
+  const [activeTags, setActiveTags] = useState<number[]>([]);
+
+  if (!tagsData) {
+    return null;
+  }
+
   return (
     <div className="flex flex-row gap-2 cursor-pointer my-4 md:my-8 overflow-x-auto hide-scrollbar ">
-      {tags.map((tag, index) => (
-        <FilterButton key={index} tag={tag} index={index} />
+      <FilterButton
+        activeTags={activeTags}
+        setActiveTags={setActiveTags}
+        reset="Clear all"
+      />
+      {tagsData.map((tag: Tag) => (
+        <FilterButton
+          key={tag.id}
+          tag={tag}
+          activeTags={activeTags}
+          setActiveTags={setActiveTags}
+        />
       ))}
     </div>
   );

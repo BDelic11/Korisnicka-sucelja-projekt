@@ -34,7 +34,7 @@ export async function changeUserProfileData(
     return { error: "Email already in use! Try something else" };
   }
 
-  const result = await db
+    await db
     .update(users)
     .set({
       name: newName,

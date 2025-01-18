@@ -1,34 +1,48 @@
 'use client';
 import { Badge } from '@/components/ui/badge';
-import { Tags } from '@repo/db/types/post';
-import { useState } from 'react';
+// import { Tags } from "@repo/db/types/post";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { Tag } from '@repo/db/types/tag';
 
-interface FilterButtonsProps {
-  tag: Tags;
-  index: number;
+interface FilterButtonProps {
+  tag?: Tag;
+  reset?: string;
+  // eslint-disable-next-line
+  setActiveTags: (tags: number[]) => void;
+  activeTags: number[];
 }
 
-const FilterButtons = ({ tag, index }: FilterButtonsProps) => {
+const FilterButton = ({
+  tag,
+  reset,
+  setActiveTags,
+  activeTags,
+}: FilterButtonProps) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
-  const [isActive, setIsActive] = useState<boolean>(false);
 
-  const handleClick = (tag: string) => {
-    setIsActive(!isActive);
+  const handleClick = (tagId?: number) => {
+    if (!tagId) {
+      // Clear all tags
+      setActiveTags([]);
+      replace(pathname);
 
-    const params = new URLSearchParams(searchParams);
-    const tags = params.get('query') ? params.get('query')!.split(',') : [];
+      return;
+    }
+    if (tag) {
+      const updatedTags = activeTags.includes(tagId)
+        ? activeTags.filter((id) => id !== tagId)
+        : [...activeTags, tagId];
 
-    if (tags.includes(tag)) {
-      // Remove the tag if it already exists
-      const updatedTags = tags.filter((existingTag) => existingTag !== tag);
-      params.set('query', updatedTags.join(','));
-    } else {
-      // Append the new tag if it doesn't exist
-      tags.push(tag);
-      params.set('query', tags.join(','));
+      setActiveTags(updatedTags);
+      const params = new URLSearchParams(searchParams);
+      if (updatedTags.length) {
+        params.set('query', updatedTags.join(','));
+      } else {
+        params.delete('query');
+      }
+      replace(`${pathname}?${params.toString().toLowerCase()}`);
     }
 
     // Remove 'query' parameter if tags are empty
@@ -39,16 +53,32 @@ const FilterButtons = ({ tag, index }: FilterButtonsProps) => {
     // Replace the URL with the updated query string
     replace(`${pathname}?${params.toString().toLowerCase()}`);
   };
-  return (
-    <Badge
-      variant={isActive ? 'default' : 'outline'}
-      onClick={() => handleClick(tag)}
-      key={index + tag}
-      className='cursor-pointer text-nowrap'
-    >
-      {tag}
-    </Badge>
-  );
+
+  if (reset) {
+    return (
+      <Badge
+        variant='default'
+        onClick={() => {
+          handleClick();
+        }}
+        className='cursor-pointer text-nowrap bg-transparent border-red-700 border-2 text-red-800 hover:bg-red-800 hover:text-white'
+      >
+        {reset}
+      </Badge>
+    );
+  }
+  if (tag) {
+    return (
+      <Badge
+        variant={activeTags?.includes(tag.id) ? 'default' : 'outline'}
+        onClick={() => handleClick(tag.id)}
+        key={tag.id}
+        className={`cursor-pointer text-nowrap ${!activeTags?.includes(tag.id) && 'hover:bg-gray-100'} `}
+      >
+        {tag.name}
+      </Badge>
+    );
+  }
 };
 
-export default FilterButtons;
+export default FilterButton;

@@ -4,7 +4,7 @@ import Image from "next/image";
 //icons
 // import LOGO from "@/public/logos/Stylist logo_grey_xl.png";
 import hamburger from "@/public/icons/hamburgerIcon.svg";
-import heart from "@/public/icons/heart.svg";
+// import heart from "@/public/icons/heart.svg";
 import userLogo from "@/public/icons/user.svg";
 import IconLink from "./icon-link";
 
@@ -14,7 +14,6 @@ import { getNameBySession } from "@/actions/utils/users";
 
 //components
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LoginButton } from "./loginButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +22,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "./button";
 import { deleteSession } from "@/actions/session";
 
 const rightIcons = [
@@ -54,13 +52,6 @@ const desktopIcons = [
     linkTo: "/inspiration",
     classname: "",
   },
-
-  // {
-  //   id: 3,
-  //   label: "Admin",
-  //   linkTo: "/admin",
-  //   classname: "",
-  // },
 ];
 
 export async function Navbar() {
@@ -103,7 +94,7 @@ export async function Navbar() {
           />
         ))}
         <div className="hidden md:block">
-          {isAuth ? (
+          {isAuth && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <Avatar>

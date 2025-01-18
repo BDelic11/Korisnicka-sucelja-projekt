@@ -1,7 +1,7 @@
 import { getUserAllDataById } from "@/actions/utils/users";
 import { Button } from "@/components/ui/button";
 import LayoutContainer from "@/components/ui/container";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { verifySession } from "@/lib/verifySession";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,23 +10,23 @@ import Link from "next/link";
 import profileIllustration from "@/public/images/profile.svg";
 import { ProfileForm } from "@/components/forms/change-user-data";
 
-const inputsInfo = [
-  {
-    label: "Name",
-    placeholder: "Your Name",
-    type: "text",
-  },
-  {
-    label: "Email",
-    placeholder: "Your Email",
-    type: "email",
-  },
-  // {
-  //   label: "Password",
-  //   placeholder: "Your Password",
-  //   type: "password",
-  // },
-];
+// const inputsInfo = [
+//   {
+//     label: "Name",
+//     placeholder: "Your Name",
+//     type: "text",
+//   },
+//   {
+//     label: "Email",
+//     placeholder: "Your Email",
+//     type: "email",
+//   },
+//   // {
+//   //   label: "Password",
+//   //   placeholder: "Your Password",
+//   //   type: "password",
+//   // },
+// ];
 
 const ProfilePageComponent = async () => {
   const { userId } = await verifySession();

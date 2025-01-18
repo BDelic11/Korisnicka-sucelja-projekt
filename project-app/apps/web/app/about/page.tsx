@@ -14,7 +14,7 @@ import Link from "next/link";
 import { deleteSession } from "@/actions/session";
 
 export default async function About() {
-  const usersData: User[] = await getAllUsers();
+  const usersData: any[] = await getAllUsers();
   const { userId } = await verifySession();
   const currentUser = await getNameBySession(userId);
 
