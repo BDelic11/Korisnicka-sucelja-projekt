@@ -56,7 +56,7 @@ export const getAdminByEmail = cache(async (email: string) => {
 
 export const checkUserByEmail = cache(async (email: string) => {
   try {
-    await db.select().from(users).where(eq(users.email, email)).limit(1);
+    await db.select().from(users).where(eq(users.email, email));
   } catch (error) {
     return true;
   }

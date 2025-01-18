@@ -17,18 +17,20 @@ export async function createSession(userId: number) {
   });
 }
 
-// export async function getSession() {
-//   const session = (await cookies()).get("session")?.value;
-//   const payload = await decrypt(session);
+export async function getSession() {
+  const session = (await cookies()).get('sessionAdmin')?.value;
+  const payload = await decrypt(session);
 
-//   if (!session || !payload) {
-//     return null;
-//   }
-// }
+  if (!session || !payload) {
+    return null;
+  }
 
-// export async function deleteSession() {
-//   (await cookies()).delete("session");
-// }
+  return payload.userId;
+}
+
+export async function deleteSession() {
+  (await cookies()).delete('session');
+}
 
 type SessionPayload = {
   userId: number;
