@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation';
 import { getSalonGallery } from '@/actions/utils/salons';
 
 import { SalonPostsGrid } from './_components/salon-images-grid';
+import { getAllTags } from '@/actions/utils/tags';
 
 export default async function Gallery() {
   const { userId } = await verifySession();

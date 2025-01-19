@@ -44,14 +44,14 @@ const rightIcons = [
 const desktopIcons = [
   {
     id: 1,
-    label: 'About us',
+    label: 'Profile info',
     linkTo: '/',
     classname: '',
   },
   {
     id: 2,
-    label: 'Get Inspired',
-    linkTo: '/inspiration',
+    label: 'Gallery',
+    linkTo: '/gallery',
     classname: '',
   },
 

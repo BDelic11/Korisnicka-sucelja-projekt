@@ -12,7 +12,7 @@ export const verifySession = cache(async () => {
     return { isAuth: false, userId: null };
   }
 
-  const userId = session.userId.toString();
+  const userId = session.userId;
 
   return { isAuth: true, userId: userId };
 });

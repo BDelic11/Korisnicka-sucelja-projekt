@@ -1,5 +1,6 @@
 import { getSession } from '@/lib/session';
-import { db, eq, salons, and, posts } from '@repo/db';
+import { db, eq, salons, and, posts, desc, postsToTags } from '@repo/db';
+import { PostForEditDto } from '@repo/db/types';
 import { cache } from 'react';
 import 'server-only';
 
@@ -37,10 +38,44 @@ export const getSalonGallery = cache(async () => {
     const salonPosts = await db
       .select()
       .from(posts)
-      .where(eq(posts.salonId, salon.id));
+      .where(eq(posts.salonId, salon.id))
+      .leftJoin(postsToTags, eq(posts.id, postsToTags.postId))
+      .orderBy(desc(posts.createdAt));
 
-    return { salon, posts: salonPosts };
+    const groupedPosts = salonPosts.reduce((acc, { posts, posts_to_tags }) => {
+      const existingPost = acc.find((post) => post.id === posts.id);
+
+      if (existingPost) {
+        if (posts_to_tags) {
+          existingPost.tagIds.push(posts_to_tags.tagId);
+        }
+      } else {
+        acc.push({
+          id: posts.id,
+          imageUrl: posts.imageUrl,
+          title: posts.title,
+          likesNumber: posts.likesNumber,
+          salonId: posts.salonId,
+          tagIds: posts_to_tags ? [posts_to_tags.tagId] : [], // If posts_to_tags is null, initialize tagIds as empty array
+        });
+      }
+
+      return acc;
+    }, [] as Array<PostForEditDto>);
+
+    return { salon, posts: groupedPosts };
   } catch (error) {
     throw new Error('Failed to fetch salon data.');
   }
 });
+
+export const getSalonByAdminId = async () => {
+  const adminId: number = await getSession();
+
+  const [salon] = await db
+    .select()
+    .from(salons)
+    .where(eq(salons.adminId, adminId));
+
+  return salon;
+};

@@ -14,7 +14,11 @@ import { PostGridDto as PostType } from '@repo/db/types/post';
 // import { LikesComponent } from '@/components/ui/likes-component';
 // import { isPostLiked } from '@/actions/utils/posts';
 import Link from 'next/link';
+import { AddPostForm } from '@/components/forms/post-form';
+import { getAllTags } from '@/actions/utils/tags';
 const AddPost = async () => {
+  const allTags = await getAllTags();
+
   return (
     <div className=' relative w-full h-36 md:h-96 bg-gray-300 flex justify-center items-center border-2 border-transparent overflow-hidden'>
       <Dialog>
@@ -40,20 +44,8 @@ const AddPost = async () => {
                 height={400}
                 // className="object-cover m-auto w-full h-full py-10  "
               /> */}
-              <div className='flex flex-ro^w justify-between align-middle gap-2'>
-                {/* {salonName && (
-                  <Link href={`/salon/${salonId}`}>
-                    <h2 className='text-gray-700 pt-2 font-semibold'>
-                      {salonName}
-                    </h2>
-                  </Link>
-                )} */}
-                {/* <LikesComponent
-                  postId={id}
-                  initialLikedBool={initialLikedBool}
-                  title={title}
-                  likesNumber={likesNumber}
-                /> */}
+              <div className='flex flex-row justify-between align-middle gap-2'>
+                <AddPostForm allTags={allTags} />
               </div>
             </div>
             <div className='font-light text-gray-500 text-sm'>
