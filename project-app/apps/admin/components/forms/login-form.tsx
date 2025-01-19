@@ -6,11 +6,7 @@ import { z } from 'zod';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
-
-//schemas
 import { loginSchema as formSchema } from '@repo/db/schemas/login';
-
-//components
 import { Button } from '@/components/ui/button';
 import {
   Form,

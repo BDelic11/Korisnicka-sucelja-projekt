@@ -10,7 +10,7 @@ export type Salon = {
 export type UpdateSalonDto = {
   id: number;
   name: string;
-  description: string;
+  description: string | null;
   phoneNumber: string;
   locationUrl: string;
 };

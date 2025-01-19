@@ -38,5 +38,6 @@ export type PostForEditDto = {
   likesNumber: number;
   salonId: number;
   title: string;
+  createdAt: Date | null;
   tagIds: number[];
 };

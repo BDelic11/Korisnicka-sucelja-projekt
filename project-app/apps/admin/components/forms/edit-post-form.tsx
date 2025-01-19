@@ -6,9 +6,7 @@ import { z } from 'zod';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Checkbox } from '@/components/ui/checkbox';
-//schemas
 
-//components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -21,17 +19,9 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import FormError from '../ui/form-error';
-import {
-  PostForEditDto,
-  PostGridDto,
-  Tag,
-  UpdateSalonDto,
-} from '@repo/db/types';
-import { changeSalonProfileData } from '@/actions/salons';
-import { Textarea } from '../ui/textarea';
+import { PostForEditDto, Tag } from '@repo/db/types';
 import { editPostSchema } from '@repo/db/schemas/post-data';
 import { editPostData } from '@/actions/posts';
-import { getPostById } from '@/actions/utils/posts';
 
 interface EditPostFormProps {
   post: PostForEditDto;

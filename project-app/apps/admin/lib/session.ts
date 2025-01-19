@@ -25,7 +25,7 @@ export async function getSession() {
     return null;
   }
 
-  return payload.userId;
+  return Number(payload.userId);
 }
 
 export async function deleteSession() {

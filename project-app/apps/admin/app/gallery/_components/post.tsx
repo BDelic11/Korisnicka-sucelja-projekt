@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import React from 'react';
 
-//components
 import {
   Dialog,
   DialogContent,
@@ -10,12 +9,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { PostForEditDto, PostGridDto as PostType } from '@repo/db/types/post';
-// import { getPostTags } from '@/actions/utils/tags';
-// import { LikesComponent } from '@/components/ui/likes-component';
-// import { isPostLiked } from '@/actions/utils/posts';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { HeartIcon } from '@/components/ui/heartIcon';
 import emptyHeart from '@/public/icons/heart.svg';
 import { EditPostForm } from '@/components/forms/edit-post-form';
 import { getAllTags } from '@/actions/utils/tags';
@@ -29,8 +24,6 @@ const Post = async ({ salonName, ...post }: PostProps) => {
   const { id, imageUrl, title, salonId, likesNumber } = post.post;
   const allTags = await getAllTags();
 
-  // const tags = await getPostTags(id);
-  // const initialLikedBool = await isPostLiked(id);
   return (
     <div
       key={id}
@@ -54,13 +47,6 @@ const Post = async ({ salonName, ...post }: PostProps) => {
                 {salonName}
               </h2>
             )}
-            <div className='group-hover:opacity-100  opacity-0  md:flex flex-row gap-1 text-gray-300 text-xs pb-1 pl-1'>
-              {/* {tags ? (
-                tags.map((tag: any) => <p key={tag.id}>#{tag.name}</p>)
-              ) : (
-                <p>No tags</p>
-              )} */}
-            </div>
           </div>
         </DialogTrigger>
         <DialogContent className='w-full h-full max-h-[80vh] overflow-y-auto '>
@@ -71,10 +57,8 @@ const Post = async ({ salonName, ...post }: PostProps) => {
                 className='object-cover w-full max-h-[500px] m-auto py-5'
                 src={imageUrl}
                 alt={title}
-                // fill
                 width={400}
                 height={400}
-                // className="object-cover m-auto w-full h-full py-10  "
               />
               <EditPostForm post={post.post} allTags={allTags} />
 
@@ -86,20 +70,9 @@ const Post = async ({ salonName, ...post }: PostProps) => {
                     </h2>
                   </Link>
                 )}
-                {/* <LikesComponent
-                  postId={id}
-                  initialLikedBool={initialLikedBool}
-                  title={title}
-                  likesNumber={likesNumber}
-                /> */}
               </div>
             </div>
             <div className='font-light text-gray-500 text-sm'>
-              {/* {tags ? (
-                tags.map((tag: any) => <span key={tag.id}>{tag.name}</span>)
-              ) : (
-                <p>No tags</p>
-              )} */}
               <div className='flex flex-row gap-2'>
                 <Button variant='destructive'>Delete Post</Button>
               </div>

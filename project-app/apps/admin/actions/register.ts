@@ -2,14 +2,11 @@
 
 import * as z from 'zod';
 import bcrypt from 'bcryptjs';
-import { v4 as uuidv4 } from 'uuid';
 
 import { db, salons, users } from '@repo/db';
 
-//schema
 import { registerSchema } from '@repo/db/schemas/register';
 
-//actions
 import { createSession } from '@/lib/session';
 import { checkUserByEmail } from './utils/users';
 

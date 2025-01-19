@@ -3,14 +3,11 @@ import LayoutContainer from '@/components/ui/container';
 import { verifySession } from '@/lib/verifySession';
 import Image from 'next/image';
 import Link from 'next/link';
-
-// images
 import profileIllustration from '@/public/images/profile.svg';
 import { notFound } from 'next/navigation';
 import { getSalonGallery } from '@/actions/utils/salons';
 
 import { SalonPostsGrid } from './_components/salon-images-grid';
-import { getAllTags } from '@/actions/utils/tags';
 
 export default async function Gallery() {
   const { userId } = await verifySession();
@@ -36,7 +33,7 @@ export default async function Gallery() {
   return (
     <LayoutContainer className='min-h-screen pt-10  flex flex-col w-full  '>
       <div className=' flex flex-col justify-center align-middle w-full md:gap-2    '>
-        <div className=' flex flex-row justify-between align-middle w-full md:px-52'>
+        <div className=' flex flex-row justify-between align-middle w-full '>
           <Image
             src={profileIllustration}
             alt='Profile illustration'
@@ -47,7 +44,7 @@ export default async function Gallery() {
             <p>{salon.followersNumber}</p>
           </div>
         </div>
-        <div className='flex flex-col justify-between align-middle gap-1 md:px-52'>
+        <div className='flex flex-col justify-between align-middle gap-1 '>
           <h1 className='mb-4 font-semibold text-lg'>{salon.name}</h1>
           <Link
             target='_blank'

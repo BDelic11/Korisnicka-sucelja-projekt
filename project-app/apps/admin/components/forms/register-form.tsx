@@ -6,13 +6,8 @@ import { z } from 'zod';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
-// schema
 import { registerSchema } from '@repo/db/schemas/register';
 
-// api
-// import { useCreateUser } from "@/api/users/useCreateUser";
-
-// components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -166,7 +161,6 @@ export function RegisterForm() {
               )}
             />
 
-            {/* Confirm Password field */}
             <FormField
               control={form.control}
               name='confirmPassword'

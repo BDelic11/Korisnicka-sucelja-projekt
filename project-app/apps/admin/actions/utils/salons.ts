@@ -6,17 +6,20 @@ import 'server-only';
 
 export const getSalonInfo = cache(async () => {
   try {
-    const userId: number = await getSession();
+    const adminId = await getSession();
+
+    if (!adminId) throw new Error('Salon not found.');
 
     const [salon] = await db
       .select({
+        id: salons.id,
         name: salons.name,
         description: salons.description,
         locationUrl: salons.locationUrl,
         phoneNumber: salons.phoneNumber,
       })
       .from(salons)
-      .where(and(eq(salons.adminId, userId)));
+      .where(and(eq(salons.adminId, adminId)));
 
     return salon;
   } catch (error) {
@@ -26,7 +29,9 @@ export const getSalonInfo = cache(async () => {
 
 export const getSalonGallery = cache(async () => {
   try {
-    const adminId: number = await getSession();
+    const adminId = await getSession();
+
+    if (!adminId) throw new Error('Salon not found.');
 
     const [salon] = await db
       .select()
@@ -54,9 +59,10 @@ export const getSalonGallery = cache(async () => {
           id: posts.id,
           imageUrl: posts.imageUrl,
           title: posts.title,
-          likesNumber: posts.likesNumber,
+          likesNumber: posts.likesNumber || 0,
           salonId: posts.salonId,
-          tagIds: posts_to_tags ? [posts_to_tags.tagId] : [], // If posts_to_tags is null, initialize tagIds as empty array
+          tagIds: posts_to_tags ? [posts_to_tags.tagId] : [],
+          createdAt: posts.createdAt,
         });
       }
 

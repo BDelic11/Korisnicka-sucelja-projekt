@@ -5,9 +5,6 @@ import * as z from 'zod';
 import { db, eq, salons, users } from '@repo/db';
 
 import { updateSalonSchema } from '@repo/db/schemas/change-salon-data';
-// import { checkUserByUsername, getUserByEmail } from "./user";
-import { getUserById } from './utils/users';
-import { createSession } from '@/lib/session';
 import { verifySession } from '@/lib/verifySession';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';

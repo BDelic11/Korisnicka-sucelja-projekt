@@ -2,86 +2,75 @@
 
 import * as z from 'zod';
 
-import { db, eq, inArray, posts, postsToTags, salons, users } from '@repo/db';
+import { db, eq, inArray, posts, postsToTags, salons } from '@repo/db';
 
 import { editPostSchema, postSchema } from '@repo/db/schemas/post-data';
-// import { checkUserByUsername, getUserByEmail } from "./user";
-import { getUserById } from './utils/users';
-import { createSession } from '@/lib/session';
 import { verifySession } from '@/lib/verifySession';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
 import { getSalonByAdminId } from './utils/salons';
-import { uploadImageToCloudinary } from './cloudinary';
+import { handleImageUpload } from './cloudinary';
 import { getPostById } from './utils/posts';
 import { getPostTagsByPostId } from './utils/tags';
+import { Post } from '@repo/db/types';
 
 export async function createPostData(data: FormData) {
+  const { isAuth, userId } = await verifySession();
+  if (!isAuth || !userId) redirect('/login');
+
+  var salon = await getSalonByAdminId();
+  if (!salon) redirect('/login');
+
   const title = data.get('title')?.toString();
   const tagIds = JSON.parse(data.get('tagIds')?.toString() || '[]');
   const image = data.get('image') as File | null;
 
   const validation = postSchema.safeParse({ title, tagIds, image });
   if (!validation.success) {
-    throw new Error('Invalid data');
+    return { error: 'Neispravan unos!' };
   }
-
   const {
     title: validatedTitle,
     tagIds: validatedTagIds,
     image: validatedImage,
   } = validation.data;
 
-  const { isAuth, userId } = await verifySession();
+  const imageUri = await handleImageUpload(validatedImage, salon);
 
-  if (!isAuth || !userId) {
-    redirect('/login');
+  if (!imageUri) {
+    return { error: 'Problem sa spremanjem slike' };
   }
 
-  var salon = await getSalonByAdminId();
+  let post: Post | undefined;
 
-  if (!salon) {
-    redirect('/login');
+  try {
+    [post] = await db
+      .insert(posts)
+      .values({
+        salonId: salon.id,
+        title: validatedTitle,
+        imageUrl: imageUri,
+      })
+      .returning();
+  } catch (error) {
+    return { error: 'Problem sa spremanjem posta u bazu.' };
   }
 
-  // const validatedFields = postSchema.safeParse(values);
+  if (!post) {
+    return { error: 'Problem sa spremanjem posta u bazu.' };
+  }
 
-  // if (!validatedFields.success) {
-  //   return { error: validatedFields.error.message };
-  // }
-
-  console.log('ajj 1');
-
-  const fileBuffer = await image.arrayBuffer();
-  const mimeType = image.type;
-  const encoding = 'base64';
-  const base64Data = Buffer.from(fileBuffer).toString('base64');
-
-  const fileUri = 'data:' + mimeType + ';' + encoding + ',' + base64Data;
-
-  console.log('ajj 2');
-
-  console.log(fileUri);
-
-  var imageUrl = await uploadImageToCloudinary('ime', fileUri);
-
-  var [post] = await db
-    .insert(posts)
-    .values({
-      salonId: salon.id,
-      title: validatedTitle,
-      imageUrl: imageUrl,
-    })
-    .returning();
-
-  if (!post) return;
-
-  var postToTagsToAdd = validatedTagIds.map((tagId) => ({
+  const postToTagsToAdd = validatedTagIds.map((tagId) => ({
     postId: post!.id,
     tagId: tagId,
   }));
 
-  await db.insert(postsToTags).values(postToTagsToAdd);
+  try {
+    await db.insert(postsToTags).values(postToTagsToAdd);
+  } catch (error) {
+    console.error('Error inserting tags into database:', error);
+    return { error: 'Problem sa spremanjem tagova.' };
+  }
 
   revalidatePath('/gallery');
 

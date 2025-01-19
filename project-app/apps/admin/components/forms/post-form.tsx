@@ -4,14 +4,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/hooks/use-toast';
-import { Controller } from 'react-hook-form';
 
-// schemas
 import { postSchema } from '@repo/db/schemas/post-data';
 
-// components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,20 +18,16 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { FileInput } from '@/components/ui/file-input'; // A custom component to handle file input (if needed)
-import Link from 'next/link';
 import { createPostData } from '@/actions/posts';
 import FormError from '../ui/form-error';
-import { MultiSelect } from '../ui/multi-select';
 import { Tag } from '@repo/db/types';
 import { Checkbox } from '../ui/checkbox';
+import { toast } from '@/hooks/use-toast';
 
 export function AddPostForm({ allTags }: { allTags: Tag[] }) {
-  const { toast } = useToast();
-  const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof postSchema>>({
     resolver: zodResolver(postSchema),
@@ -47,30 +38,47 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
     },
   });
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files ? event.target.files[0] : null;
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: 'File too large',
+        description: 'The file size should not exceed 5MB.',
+      });
+      return;
+    }
+    if (!['image/png', 'image/jpeg', 'image/jpg'].includes(file.type)) {
+      toast({
+        title: 'Invalid file type',
+        description: 'Only PNG, JPEG, and JPG images are allowed.',
+      });
+      return;
+    }
+
+    setPreviewUrl(URL.createObjectURL(file));
+    form.setValue('image', file);
+  };
+
   async function handlePost(values: z.infer<typeof postSchema>) {
     setIsLoading(true);
-    setError('');
 
     const formData = new FormData();
-    values.title && formData.append('title', values.title);
-    if (values.tagIds && values.tagIds.length > 0) {
-      formData.append('tagIds', JSON.stringify(values.tagIds)); // Serialize the tagIds array
+    if (values.title) formData.append('title', values.title);
+    if (values.tagIds?.length)
+      formData.append('tagIds', JSON.stringify(values.tagIds));
+    if (values.image) formData.append('image', values.image);
+
+    const response = await createPostData(formData);
+    if (response.error) {
+      setError(response.error);
+    } else if (response.success) {
+      toast({
+        title: `${response.success}`,
+        description: `Successfully added the post!`,
+      });
     }
-    // values.tagIds && formData.append('tagIds', values.tagIds);
-    values.image && formData.append('image', values.image);
-
-    await createPostData(formData);
-
-    // const response = await createPostData(formData);
-    // if (response.error) {
-    //   setError(response.error);
-    // } else if (response.success) {
-    //   toast({
-    //     title: `${response.success}`,
-    //     description: `Successfully added the post!`,
-    //   });
-    //   // Redirect or reset form here if necessary
-    // }
 
     setIsLoading(false);
   }
@@ -79,9 +87,8 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handlePost)}
-        className='space-y-4 flex flex-col md:w-1/3'
+        className='space-y-4 flex flex-col w-full px-4'
       >
-        {/* Title Input */}
         <FormField
           control={form.control}
           name='title'
@@ -97,6 +104,13 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
           )}
         />
 
+        <FormLabel
+          className={`${
+            form.formState.errors.tagIds ? 'text-red-500' : 'text-black'
+          }`}
+        >
+          Tags
+        </FormLabel>
         {allTags.map((item) => (
           <FormField
             key={item.id}
@@ -105,10 +119,9 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
             render={({ field }) => {
               const handleTagChange = (checked: boolean) => {
                 const updatedTagIds = checked
-                  ? [...field.value, item.id] // Add the tag if checked
-                  : field.value.filter((id) => id !== item.id); // Remove if unchecked
+                  ? [...field.value, item.id]
+                  : field.value.filter((id) => id !== item.id);
 
-                // Update the form field value with the new tag array
                 field.onChange(updatedTagIds);
               };
 
@@ -123,7 +136,7 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
                       onCheckedChange={handleTagChange} // Pass the controlled function
                     />
                   </FormControl>
-                  <FormLabel className='text-sm font-normal'>
+                  <FormLabel className='text-sm font-normal text-black'>
                     {item.name}
                   </FormLabel>
                 </FormItem>
@@ -132,79 +145,43 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
           />
         ))}
 
+        {form.formState.errors.tagIds && (
+          <p className='text-red-500 text-[0.8rem] font-medium text-destructive'>
+            {form.formState.errors.tagIds.message}
+          </p>
+        )}
+
         <FormField
           control={form.control}
           name='image'
           render={({ field: { value, onChange, ...fieldProps } }) => (
             <FormItem>
-              <FormLabel>Profile picture</FormLabel>
+              <FormLabel>Image</FormLabel>
               <FormControl>
                 <Input
-                  className='bg-neutral-900'
                   type='file'
                   {...fieldProps}
                   accept='image/png, image/jpeg, image/jpg'
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
+                  onChange={handleImageChange}
                 />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        {/* Image Input */}
-        {/* <FormField
-          control={form.control}
-          name='image'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Image</FormLabel>
-              <FormControl>
-                <FileInput
-                  {...field}
-                  accept='image/*'
-                  onChange={(e) => {
-                    const file = e.target.files ? e.target.files[0] : null;
-                    field.onChange(file); // Update form state
-                  }}
-                />
-              </FormControl>
-              <FormDescription>Upload an image for your post.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
 
-        {/* Tag IDs Input */}
-        {/* <FormField
-          control={form.control}
-          name='tagIds'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tags</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder='Enter comma-separated tag IDs'
-                  onChange={(e) => {
-                    const value = e.target.value
-                      .split(',')
-                      .map((tag) => parseInt(tag.trim(), 10))
-                      .filter((tagId) => !isNaN(tagId)); // Filter out invalid tag IDs
-                    field.onChange(value); // Update form state with array of tagIds
-                  }}
-                  value={field.value.join(', ')} // Format tag IDs as comma-separated string
-                />
-              </FormControl>
-              <FormDescription>Enter comma-separated tag IDs.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
+        {previewUrl && (
+          <div className='mt-4'>
+            <img
+              src={previewUrl}
+              alt='Image Preview'
+              className='rounded-lg w-full h-auto object-cover'
+            />
+          </div>
+        )}
 
         {error && <FormError message={error} />}
 
-        {/* Submit Button */}
         <Button
           size='default'
           className='mt-10 w-full'
@@ -220,12 +197,6 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
             'Add Post'
           )}
         </Button>
-
-        <Link href='/posts'>
-          <p className='flex justify-center my-4 leading-7 text-gray-600 cursor-pointer'>
-            Go back to posts list
-          </p>
-        </Link>
       </form>
     </Form>
   );

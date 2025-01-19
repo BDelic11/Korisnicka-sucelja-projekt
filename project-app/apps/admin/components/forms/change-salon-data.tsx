@@ -5,11 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
-
-//schemas
 import { updateSalonSchema as formSchema } from '@repo/db/schemas/change-salon-data';
-
-//components
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -36,7 +32,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: salon.name,
-      description: salon.description,
+      description: salon.description || '',
       locationUrl: salon.locationUrl,
       phoneNumber: salon.phoneNumber,
     },
@@ -63,7 +59,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleChangeUserData)}
-        className='space-y-4 flex flex-col md:w-2/3'
+        className='space-y-4 flex flex-col w-full px-4'
       >
         <FormField
           control={form.control}
@@ -75,7 +71,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
                 <Input type='text' {...field} />
               </FormControl>
               <FormDescription>
-                Enter a user name you would like to switch to.
+                Enter a salon name you would like to switch to.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -141,7 +137,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
               <p>Changing</p>
             </>
           ) : (
-            'Change user data'
+            'Change salon data'
           )}
         </Button>
       </form>
