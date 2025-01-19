@@ -76,7 +76,9 @@ export const getSalonGallery = cache(async () => {
 });
 
 export const getSalonByAdminId = async () => {
-  const adminId: number = await getSession();
+  const adminId = await getSession();
+
+  if (!adminId) return;
 
   const [salon] = await db
     .select()

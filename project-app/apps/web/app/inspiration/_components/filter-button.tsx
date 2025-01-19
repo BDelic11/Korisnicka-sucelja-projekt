@@ -46,7 +46,9 @@ const FilterButton = ({
     }
 
     // Remove 'query' parameter if tags are empty
-    if (!tags.length) {
+    const params = new URLSearchParams(searchParams);
+
+    if (!activeTags.length) {
       params.delete('query');
     }
 
