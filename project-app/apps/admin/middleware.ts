@@ -13,6 +13,10 @@ export default async function middleware(req: NextRequest) {
 
   const session = await decrypt(sessionToken);
 
+  if (isPublicRoute && session) {
+    return NextResponse.redirect(new URL('/', req.nextUrl));
+  }
+
   if (isProtectedRoute && !session) {
     return NextResponse.redirect(new URL('/login', req.nextUrl));
   }

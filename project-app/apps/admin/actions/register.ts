@@ -1,20 +1,20 @@
-"use server";
+'use server';
 
-import * as z from "zod";
-import bcrypt from "bcryptjs";
+import * as z from 'zod';
+import bcrypt from 'bcryptjs';
 
-import { db, salons, users } from "@repo/db";
+import { db, salons, users } from '@repo/db';
 
-import { registerSchema } from "@repo/db/schemas/register";
+import { registerSchema } from '@repo/db/schemas/register';
 
-import { createSession } from "@/lib/session";
-import { checkUserByEmail } from "./utils/users";
+import { createSession } from '@/lib/session';
+import { checkUserByEmail } from './utils/users';
 
 export async function register(values: z.infer<typeof registerSchema>) {
   const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Neispravan unos!" };
+    return { error: 'Neispravan unos!' };
   }
 
   const { name, surname, email, password } = validatedFields.data;
@@ -24,7 +24,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
   const existingUser = await checkUserByEmail(email);
 
   if (existingUser === true) {
-    return { error: "Email se vec koristi" };
+    return { error: 'Email se vec koristi' };
   }
 
   const [createdUser] = await db
@@ -34,12 +34,12 @@ export async function register(values: z.infer<typeof registerSchema>) {
       surname,
       email,
       password: hashedPassword,
-      role: "admin",
+      role: 'admin',
     })
     .returning();
 
   if (!createdUser) {
-    return { error: "Nije kreiran admin!" };
+    return { error: 'Nije kreiran admin!' };
   }
 
   const { salonName, salonDescription, salonLocationUrl, salonPhoneNumber } =
@@ -55,5 +55,5 @@ export async function register(values: z.infer<typeof registerSchema>) {
 
   await createSession(createdUser.id);
 
-  return { success: "Uspješno ste se registrirali!" };
+  return { success: 'Uspješno ste se registrirali!' };
 }
