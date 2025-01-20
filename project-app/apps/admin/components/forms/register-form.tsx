@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
-import { registerSchema } from '@repo/db/schemas/register';
+import { registerSchema } from "@repo/db/schemas/register";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -17,13 +17,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { register } from '@/actions/register';
-import FormError from '../ui/form-error';
-import { Textarea } from '../ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { register } from "@/actions/register";
+import FormError from "../ui/form-error";
+import { Textarea } from "../ui/textarea";
 
 export function RegisterForm() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -31,31 +31,31 @@ export function RegisterForm() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      name: '',
-      surname: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-      salonDescription: '',
-      salonLocationUrl: '',
-      salonName: '',
-      salonPhoneNumber: '',
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      salonDescription: "",
+      salonLocationUrl: "",
+      salonName: "",
+      salonPhoneNumber: "",
     },
   });
 
   async function handleFirstNextStep() {
-    const isStepOneValid = await form.trigger(['name', 'surname', 'email']);
+    const isStepOneValid = await form.trigger(["name", "surname", "email"]);
 
     if (isStepOneValid) setCurrentStep(2);
   }
 
   async function handleSecondNextStep() {
-    const isStepTwoValid = await form.trigger(['password', 'confirmPassword']);
+    const isStepTwoValid = await form.trigger(["password", "confirmPassword"]);
 
     if (isStepTwoValid) setCurrentStep(3);
   }
@@ -70,7 +70,7 @@ export function RegisterForm() {
         description: `Welcome, ${formData.name}!`,
       });
 
-      router.push('/');
+      router.push("/");
     } else if (response.error) {
       setError(response.error);
     }
@@ -81,18 +81,18 @@ export function RegisterForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleRegister)}
-        className='space-y-4 md:w-1/3'
+        className="space-y-4 px-4 flex flex-col w-1/2  h-full"
       >
         {currentStep === 1 && (
           <>
             <FormField
               control={form.control}
-              name='name'
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Your name' {...field} />
+                    <Input placeholder="Your name" {...field} />
                   </FormControl>
                   <FormDescription>Enter your name.</FormDescription>
                   <FormMessage />
@@ -102,12 +102,12 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='surname'
+              name="surname"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Surname</FormLabel>
                   <FormControl>
-                    <Input placeholder='Your surname' {...field} />
+                    <Input placeholder="Your surname" {...field} />
                   </FormControl>
                   <FormDescription>Enter your surname.</FormDescription>
                   <FormMessage />
@@ -117,12 +117,12 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='email'
+              name="email"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder='you@example.com' {...field} />
+                    <Input placeholder="you@example.com" {...field} />
                   </FormControl>
                   <FormDescription>Enter your email address.</FormDescription>
                   <FormMessage />
@@ -131,9 +131,9 @@ export function RegisterForm() {
             />
 
             <Button
-              size='default'
-              className='mt-10 w-full bg-stylist-blue'
-              type='button'
+              size="default"
+              className="mt-10 w-full bg-stylist-blue"
+              type="button"
               onClick={handleFirstNextStep}
             >
               Continue
@@ -145,12 +145,12 @@ export function RegisterForm() {
           <>
             <FormField
               control={form.control}
-              name='password'
+              name="password"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input type='password' placeholder='••••••••' {...field} />
+                    <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
                   <FormDescription>
                     Enter a strong password (at least 8 characters, including
@@ -163,12 +163,12 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='confirmPassword'
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Confirm Password</FormLabel>
                   <FormControl>
-                    <Input type='password' placeholder='••••••••' {...field} />
+                    <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
                   <FormDescription>Re-enter your password.</FormDescription>
                   <FormMessage />
@@ -177,9 +177,9 @@ export function RegisterForm() {
             />
 
             <Button
-              size='default'
-              className='mt-10 w-full bg-stylist-blue'
-              type='button'
+              size="default"
+              className="mt-10 w-full bg-stylist-blue"
+              type="button"
               onClick={handleSecondNextStep}
             >
               Continue to salon info
@@ -191,12 +191,12 @@ export function RegisterForm() {
           <>
             <FormField
               control={form.control}
-              name='salonName'
+              name="salonName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Salon name</FormLabel>
                   <FormControl>
-                    <Input placeholder='Salon name' {...field} />
+                    <Input placeholder="Salon name" {...field} />
                   </FormControl>
                   <FormDescription>Enter your salon name.</FormDescription>
                   <FormMessage />
@@ -206,14 +206,14 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='salonPhoneNumber'
+              name="salonPhoneNumber"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Salon phone number</FormLabel>
                   <FormControl>
                     <Input
-                      type='tel'
-                      placeholder='Salon phone number'
+                      type="tel"
+                      placeholder="Salon phone number"
                       {...field}
                     />
                   </FormControl>
@@ -227,12 +227,12 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='salonLocationUrl'
+              name="salonLocationUrl"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Salon location URL</FormLabel>
                   <FormControl>
-                    <Input placeholder='Salon location URL' {...field} />
+                    <Input placeholder="Salon location URL" {...field} />
                   </FormControl>
                   <FormDescription>
                     Enter your salon location URL.
@@ -244,12 +244,12 @@ export function RegisterForm() {
 
             <FormField
               control={form.control}
-              name='salonDescription'
+              name="salonDescription"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Salon description</FormLabel>
                   <FormControl>
-                    <Textarea placeholder='Salon description' {...field} />
+                    <Textarea placeholder="Salon description" {...field} />
                   </FormControl>
                   <FormDescription>
                     Enter your salon description.
@@ -262,19 +262,19 @@ export function RegisterForm() {
             {error && <FormError message={error} />}
 
             <Button
-              size='default'
-              className='mt-10 w-full '
-              type='submit'
+              size="default"
+              className="mt-10 w-full "
+              type="submit"
               disabled={isLoading}
             >
-              {isLoading ? 'Loading...' : 'Register'}
+              {isLoading ? "Loading..." : "Register"}
             </Button>
           </>
         )}
 
         {currentStep === 1 && (
-          <Link href='/login' className='h-min'>
-            <p className='flex justify-center my-4 leading-7 text-gray-600 cursor-pointer'>
+          <Link href="/login" className="h-min">
+            <p className="flex justify-center my-4 leading-7 text-gray-600 cursor-pointer">
               Already have an account?
             </p>
           </Link>
