@@ -4,7 +4,6 @@ import Image from "next/image";
 //icons
 // import LOGO from "@/public/logos/Stylist logo_grey_xl.png";
 import hamburger from "@/public/icons/hamburgerIcon.svg";
-// import heart from "@/public/icons/heart.svg";
 import userLogo from "@/public/icons/user.svg";
 import IconLink from "./icon-link";
 
@@ -24,19 +23,21 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { deleteSession } from "@/actions/session";
 
-const rightIcons = [
-  // {
-  //   id: 1,
-  //   icon: heart,
-  //   linkTo: "/",
-  //   classname: "",
-  // },
-
+const mobileToggleLinks = [
+  {
+    id: 1,
+    label: "Inpiration",
+    href: "/inspiration",
+  },
   {
     id: 2,
-    icon: hamburger,
-    linkTo: "/",
-    classname: "md:hidden",
+    label: "About us",
+    href: "/",
+  },
+  {
+    id: 3,
+    label: "Settings",
+    href: "/profile",
   },
 ];
 const desktopIcons = [
@@ -84,15 +85,29 @@ export async function Navbar() {
       </ul>
 
       <ul className="flex flex-row gap-4 md:gap-4 lg:gap-5 my-auto">
-        {rightIcons.map((icon) => (
-          <IconLink
-            hover
-            key={icon.id}
-            classname={icon.classname}
-            linkTo={icon.linkTo}
-            icon={icon.icon}
-          />
-        ))}
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <IconLink hover classname="md:hidden" icon={hamburger} linkTo="/" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {mobileToggleLinks.map((link) => (
+              <Link key={link.id} href={link.href}>
+                <DropdownMenuItem>{link.label}</DropdownMenuItem>
+              </Link>
+            ))}
+
+            <form action={deleteSession} className="w-full cursor-pointer">
+              <button className="w-full">
+                <DropdownMenuItem className="text-red-500">
+                  Logout
+                </DropdownMenuItem>
+              </button>
+            </form>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         <div className="hidden md:block">
           {isAuth && user ? (
             <DropdownMenu>
@@ -119,11 +134,6 @@ export async function Navbar() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            // <Button asChild>
-            //   <Link className="mt-20" href="/login">
-            //     Login
-            //   </Link>
-            // </Button>
             <p>Not logged in</p>
           )}
         </div>

@@ -1,8 +1,10 @@
+"use client";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
 import React from "react";
 
 interface IconLinkProps {
+  menuToggle?: boolean;
   hover?: boolean;
   underline?: boolean;
   linkTo: string;
@@ -12,6 +14,7 @@ interface IconLinkProps {
 }
 
 const IconLink = ({
+  menuToggle,
   underline,
   hover,
   linkTo,
@@ -19,6 +22,12 @@ const IconLink = ({
   classname,
   label,
 }: IconLinkProps) => {
+  const handleMenuToggle = () => {
+    if (menuToggle) {
+      console.log("Menu toggle");
+    }
+  };
+
   return (
     <Link
       href={linkTo}
@@ -34,13 +43,24 @@ const IconLink = ({
     >
       {icon ? (
         <li className="relative list-none">
-          <Image
-            src={icon}
-            alt="Link icon"
-            className="w-6 h-6 text-red-100 md:w-7 md:h-7 relative"
-            // width={24}
-            // height={24}
-          />
+          {menuToggle ? (
+            <Image
+              onClick={() => handleMenuToggle()}
+              src={icon}
+              alt="Link icon"
+              className="w-6 h-6 text-red-100 md:w-7 md:h-7 relative"
+              // width={24}
+              // height={24}
+            />
+          ) : (
+            <Image
+              src={icon}
+              alt="Link icon"
+              className="w-6 h-6 text-red-100 md:w-7 md:h-7 relative"
+              // width={24}
+              // height={24}
+            />
+          )}
         </li>
       ) : (
         <li className="text-navbarTextColor font-light">{label}</li>
