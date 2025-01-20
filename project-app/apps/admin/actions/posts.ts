@@ -135,8 +135,6 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
 
   if (!postToEdit) return { error: 'Post not found!' };
 
-  console.log(1);
-
   await db
     .update(posts)
     .set({
@@ -150,11 +148,7 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
     tagId: tagId,
   }));
 
-  console.log(newPostToTags);
-
   if (oldPostToTags.length > 0) {
-    console.log(oldPostToTags);
-
     const tagIdsToDelete = oldPostToTags
       .filter(
         (oldTag) =>
@@ -165,17 +159,12 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
     await db
       .delete(postsToTags)
       .where(inArray(postsToTags.postId, tagIdsToDelete));
-
-    console.log('12');
   }
 
   if (postToEditForm.tagIds.length > 0) {
-    console.log('13');
-
     const tagsToAdd = newPostToTags.filter(
       (newTag) => !oldPostToTags.some((oldTag) => oldTag.tagId === newTag.tagId)
     );
-    console.log('14');
 
     for (const tag of tagsToAdd) {
       await db.insert(postsToTags).values({
