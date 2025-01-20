@@ -24,3 +24,20 @@ export type PostGridDto = {
   likesNumber: number | null;
   createdAt: Date | null;
 };
+
+export type PostModifyDto = {
+  id?: number;
+  image: File;
+  title: string;
+  tagIds: number[];
+};
+
+export type PostForEditDto = {
+  id: number;
+  imageUrl: string;
+  likesNumber: number;
+  salonId: number;
+  title: string;
+  createdAt: Date | null;
+  tagIds: number[];
+};

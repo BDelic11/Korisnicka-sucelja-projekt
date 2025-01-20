@@ -1,8 +1,8 @@
-"use client";
-import { Badge } from "@/components/ui/badge";
+'use client';
+import { Badge } from '@/components/ui/badge';
 // import { Tags } from "@repo/db/types/post";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { Tag } from "@repo/db/types/tag";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { Tag } from '@repo/db/types/tag';
 
 interface FilterButtonProps {
   tag?: Tag;
@@ -38,22 +38,32 @@ const FilterButton = ({
       setActiveTags(updatedTags);
       const params = new URLSearchParams(searchParams);
       if (updatedTags.length) {
-        params.set("query", updatedTags.join(","));
+        params.set('query', updatedTags.join(','));
       } else {
-        params.delete("query");
+        params.delete('query');
       }
       replace(`${pathname}?${params.toString().toLowerCase()}`);
     }
+
+    // Remove 'query' parameter if tags are empty
+    const params = new URLSearchParams(searchParams);
+
+    if (!activeTags.length) {
+      params.delete('query');
+    }
+
+    // Replace the URL with the updated query string
+    replace(`${pathname}?${params.toString().toLowerCase()}`);
   };
 
   if (reset) {
     return (
       <Badge
-        variant="default"
+        variant='default'
         onClick={() => {
           handleClick();
         }}
-        className="cursor-pointer text-nowrap bg-transparent border-red-700 border-2 text-red-800 hover:bg-red-800 hover:text-white"
+        className='cursor-pointer text-nowrap bg-transparent border-red-700 border-2 text-red-800 hover:bg-red-800 hover:text-white'
       >
         {reset}
       </Badge>
@@ -62,10 +72,10 @@ const FilterButton = ({
   if (tag) {
     return (
       <Badge
-        variant={activeTags?.includes(tag.id) ? "default" : "outline"}
+        variant={activeTags?.includes(tag.id) ? 'default' : 'outline'}
         onClick={() => handleClick(tag.id)}
         key={tag.id}
-        className={`cursor-pointer text-nowrap ${!activeTags?.includes(tag.id) && "hover:bg-gray-100"} `}
+        className={`cursor-pointer text-nowrap ${!activeTags?.includes(tag.id) && 'hover:bg-gray-100'} `}
       >
         {tag.name}
       </Badge>

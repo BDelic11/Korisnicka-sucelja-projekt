@@ -6,3 +6,11 @@ export type Salon = {
   locationUrl: string;
   followersNumber: number;
 };
+
+export type UpdateSalonDto = {
+  id: number;
+  name: string;
+  description: string | null;
+  phoneNumber: string;
+  locationUrl: string;
+};
