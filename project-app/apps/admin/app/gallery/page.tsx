@@ -9,6 +9,13 @@ import { getSalonGallery } from '@/actions/utils/salons';
 
 import { SalonPostsGrid } from './_components/salon-images-grid';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Gallery',
+  description: 'Page with salon gallery',
+};
+
 export default async function Gallery() {
   const { userId } = await verifySession();
   const { salon, posts } = await getSalonGallery();

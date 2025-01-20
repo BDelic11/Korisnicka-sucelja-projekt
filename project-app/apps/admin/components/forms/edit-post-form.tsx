@@ -26,9 +26,14 @@ import { editPostData } from '@/actions/posts';
 interface EditPostFormProps {
   post: PostForEditDto;
   allTags: Tag[];
+  setIsModalOpen: (isOpen: boolean) => void;
 }
 
-export function EditPostForm({ post, allTags }: EditPostFormProps) {
+export function EditPostForm({
+  post,
+  allTags,
+  setIsModalOpen,
+}: EditPostFormProps) {
   if (!post || !allTags) {
     return;
   }
@@ -60,6 +65,7 @@ export function EditPostForm({ post, allTags }: EditPostFormProps) {
         title: `${response.success}`,
         description: `Successfully changed data!`,
       });
+      setIsModalOpen(false);
     }
 
     setIsLoading(false);
@@ -69,7 +75,7 @@ export function EditPostForm({ post, allTags }: EditPostFormProps) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleChangePostData)}
-        className='space-y-4 flex flex-col md:w-2/3'
+        className='space-y-4 flex flex-col w-full'
       >
         <FormField
           control={form.control}
@@ -88,49 +94,52 @@ export function EditPostForm({ post, allTags }: EditPostFormProps) {
           )}
         />
 
-        <FormItem>
-          <div className='mb-4'>
-            <FormLabel className='text-base'>Sidebar</FormLabel>
-            <FormDescription>
-              Select the items you want to display in the sidebar.
-            </FormDescription>
-          </div>
-          {allTags.map((item) => (
-            <FormField
-              key={item.id}
-              control={form.control}
-              name='tagIds'
-              render={({ field }) => {
-                const handleTagChange = (checked: boolean) => {
-                  const updatedTagIds = checked
-                    ? [...field.value, item.id] // Add the tag if checked
-                    : field.value.filter((id) => id !== item.id); // Remove if unchecked
+        <FormLabel
+          className={`${
+            form.formState.errors.tagIds ? 'text-red-500' : 'text-black'
+          }`}
+        >
+          Tags
+        </FormLabel>
+        {allTags.map((item) => (
+          <FormField
+            key={item.id}
+            control={form.control}
+            name='tagIds'
+            render={({ field }) => {
+              const handleTagChange = (checked: boolean) => {
+                const updatedTagIds = checked
+                  ? [...field.value, item.id]
+                  : field.value.filter((id) => id !== item.id);
 
-                  // Update the form field value with the new tag array
-                  field.onChange(updatedTagIds);
-                };
+                field.onChange(updatedTagIds);
+              };
 
-                return (
-                  <FormItem
-                    key={item.id}
-                    className='flex flex-row items-start space-x-3 space-y-0'
-                  >
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value?.includes(item.id)}
-                        onCheckedChange={handleTagChange} // Pass the controlled function
-                      />
-                    </FormControl>
-                    <FormLabel className='text-sm font-normal'>
-                      {item.name}
-                    </FormLabel>
-                  </FormItem>
-                );
-              }}
-            />
-          ))}
-          <FormMessage />
-        </FormItem>
+              return (
+                <FormItem
+                  key={item.id}
+                  className='flex flex-row items-start space-x-3 space-y-0'
+                >
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value?.includes(item.id)}
+                      onCheckedChange={handleTagChange} // Pass the controlled function
+                    />
+                  </FormControl>
+                  <FormLabel className='text-sm font-normal text-black'>
+                    {item.name}
+                  </FormLabel>
+                </FormItem>
+              );
+            }}
+          />
+        ))}
+
+        {form.formState.errors.tagIds && (
+          <p className='text-red-500 text-[0.8rem] font-medium text-destructive'>
+            {form.formState.errors.tagIds.message}
+          </p>
+        )}
 
         {error && <FormError message={error} />}
 

@@ -24,7 +24,12 @@ import { Tag } from '@repo/db/types';
 import { Checkbox } from '../ui/checkbox';
 import { toast } from '@/hooks/use-toast';
 
-export function AddPostForm({ allTags }: { allTags: Tag[] }) {
+interface AddPostFormProps {
+  allTags: Tag[];
+  setIsModalOpen: (isOpen: boolean) => void;
+}
+
+export function AddPostForm({ allTags, setIsModalOpen }: AddPostFormProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -78,6 +83,7 @@ export function AddPostForm({ allTags }: { allTags: Tag[] }) {
         title: `${response.success}`,
         description: `Successfully added the post!`,
       });
+      setIsModalOpen(false);
     }
 
     setIsLoading(false);

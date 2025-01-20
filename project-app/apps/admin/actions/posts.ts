@@ -13,6 +13,7 @@ import { handleImageUpload } from './cloudinary';
 import { getPostById } from './utils/posts';
 import { getPostTagsByPostId } from './utils/tags';
 import { Post } from '@repo/db/types';
+import { deletePostSchema } from '@repo/db/schemas/delete-post-data';
 
 export async function createPostData(data: FormData) {
   const { isAuth, userId } = await verifySession();
@@ -77,23 +78,36 @@ export async function createPostData(data: FormData) {
   return { success: 'Uspješno ste se promijenili podatke!' };
 }
 
-export async function deletePost(postId: number) {
+export async function deletePost(values: z.infer<typeof deletePostSchema>) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
     redirect('/login');
   }
 
+  const validatedFields = deletePostSchema.safeParse(values);
+
+  if (!validatedFields.success) {
+    return { error: validatedFields.error.message };
+  }
+
   const [postToDelete] = await db
     .select({ id: posts.id })
     .from(posts)
-    .where(eq(posts.id, postId))
+    .where(eq(posts.id, validatedFields.data.id))
     .innerJoin(salons, eq(salons.adminId, +userId));
 
-  console.log('test', postToDelete);
+  if (!postToDelete) return { error: 'Post not found!' };
 
-  // await db.delete(postsToTags).where(eq(posts.id, postId));
-  // await db.delete(posts).where(eq(posts.id, postId));
+  try {
+    await db.delete(posts).where(eq(posts.id, postToDelete.id));
+  } catch (error) {
+    return { error: 'Problem with post delete!' };
+  }
+
+  revalidatePath('/gallery');
+
+  return { success: 'Uspješno ste se promijenili podatke!' };
 }
 
 export async function editPostData(values: z.infer<typeof editPostSchema>) {

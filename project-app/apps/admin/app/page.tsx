@@ -1,10 +1,15 @@
-import { Button } from '@/components/ui/button';
 import LayoutContainer from '@/components/ui/container';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import profileIllustration from '@/public/images/profile.svg';
 import { ProfileForm } from '@/components/forms/change-salon-data';
 import { getSalonInfo } from '@/actions/utils/salons';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Profile info',
+  description: 'Change your salon profile',
+};
 
 const ProfilePageComponent = async () => {
   const salon = await getSalonInfo();
