@@ -11,6 +11,7 @@ import {
   likes,
   and,
   ilike,
+  followers,
 } from "@repo/db";
 import { cache } from "react";
 import { verifySession } from "@/lib/verifySession";
@@ -222,6 +223,32 @@ export async function isPostLiked(postId: number) {
     return true;
   } catch (error) {
     console.error("Failed to check if post is liked:", error);
+    return false;
+  }
+}
+
+//follows
+export async function isSalonFollowed(salonId: number) {
+  const { isAuth, userId } = await verifySession();
+
+  if (!isAuth || !userId) {
+    console.error("User is not authenticated");
+    return false;
+  }
+
+  try {
+    const isFollowed = await db
+      .select()
+      .from(followers)
+      .where(and(eq(followers.userId, userId), eq(followers.salonId, salonId)));
+    if (!isFollowed.length) {
+      console.log("Salon is not followed");
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Failed to check if salon is followed:", error);
     return false;
   }
 }

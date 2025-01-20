@@ -1,20 +1,20 @@
-import Link from 'next/link';
-import Image from 'next/image';
+import Link from "next/link";
+import Image from "next/image";
 
 //icons
 // import LOGO from "@/public/logos/Stylist logo_grey_xl.png";
-import hamburger from '@/public/icons/hamburgerIcon.svg';
-import heart from '@/public/icons/heart.svg';
-import userLogo from '@/public/icons/user.svg';
-import IconLink from './icon-link';
+import hamburger from "@/public/icons/hamburgerIcon.svg";
+import heart from "@/public/icons/heart.svg";
+import userLogo from "@/public/icons/user.svg";
+import IconLink from "./icon-link";
 
 //actions
-import { verifySession } from '@/lib/verifySession';
-import { getNameBySession } from '@/actions/utils/users';
+import { verifySession } from "@/lib/verifySession";
+import { getNameBySession } from "@/actions/utils/users";
 
 //components
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { LoginButton } from './loginButton';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { LoginButton } from "./loginButton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,9 +22,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Button } from './button';
-import { deleteSession } from '@/actions/session';
+} from "@/components/ui/dropdown-menu";
+import { Button } from "./button";
+import { deleteSession } from "@/actions/session";
 
 const rightIcons = [
   // {
@@ -37,22 +37,22 @@ const rightIcons = [
   {
     id: 2,
     icon: hamburger,
-    linkTo: '/',
-    classname: 'md:hidden',
+    linkTo: "/",
+    classname: "md:hidden",
   },
 ];
 const desktopIcons = [
   {
     id: 1,
-    label: 'Profile info',
-    linkTo: '/',
-    classname: '',
+    label: "Profile info",
+    linkTo: "/",
+    classname: "",
   },
   {
     id: 2,
-    label: 'Gallery',
-    linkTo: '/gallery',
-    classname: '',
+    label: "Gallery",
+    linkTo: "/gallery",
+    classname: "",
   },
 
   // {
@@ -68,19 +68,19 @@ export async function Navbar() {
   const user = await getNameBySession(userId);
 
   return (
-    <nav className=' font-roboto_slab lg:text-lg sticky top-0 flex flex-row justify-between items-center w-full h-16 p-4 bg-transoarent rounded-none md:h-20 duration-100 delay-75 z-10 md:px-20 '>
+    <nav className=" font-roboto_slab lg:text-lg sticky top-0 flex flex-row justify-between items-center w-full h-16 p-4 bg-transoarent rounded-none md:h-20 duration-100 delay-75 z-10 md:px-20 ">
       {/* Logo on left side */}
-      <Link href={'/'} className=''>
+      <Link href={"/"} className="">
         <Image
           src={userLogo}
-          alt='Logo icon'
-          className='w-6 h-6 md:w-10   md:h-auto '
+          alt="Logo icon"
+          className="w-6 h-6 md:w-10   md:h-auto "
           // width={24}
           // height={24}
         />
       </Link>
 
-      <ul className='hidden md:flex flex-row gap-3 md:gap-6 lg:gap-12 my-auto '>
+      <ul className="hidden md:flex flex-row gap-3 md:gap-6 lg:gap-12 my-auto ">
         {desktopIcons.map((icon) => (
           <IconLink
             underline
@@ -92,7 +92,7 @@ export async function Navbar() {
         ))}
       </ul>
 
-      <ul className='flex flex-row gap-4 md:gap-4 lg:gap-5 my-auto'>
+      <ul className="flex flex-row gap-4 md:gap-4 lg:gap-5 my-auto">
         {rightIcons.map((icon) => (
           <IconLink
             hover
@@ -102,7 +102,7 @@ export async function Navbar() {
             icon={icon.icon}
           />
         ))}
-        <div className='hidden md:block'>
+        <div className="hidden md:block">
           {isAuth ? (
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -115,12 +115,12 @@ export async function Navbar() {
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <Link href={'/profile'}>
+                <Link href={"/"}>
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
-                <form action={deleteSession} className='w-full cursor-pointer'>
-                  <button className='w-full'>
-                    <DropdownMenuItem className='text-red-500'>
+                <form action={deleteSession} className="w-full cursor-pointer">
+                  <button className="w-full">
+                    <DropdownMenuItem className="text-red-500">
                       Logout
                     </DropdownMenuItem>
                   </button>

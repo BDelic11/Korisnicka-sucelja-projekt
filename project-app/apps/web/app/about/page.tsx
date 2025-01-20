@@ -1,7 +1,7 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 //types
-import { User } from "@repo/db/types/user";
+// import { User } from "@repo/db/types/user";
 
 //actions
 import { verifySession } from "@/lib/verifySession";

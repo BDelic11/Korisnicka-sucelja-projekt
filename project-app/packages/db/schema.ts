@@ -85,3 +85,22 @@ export const likes = pgTable(
     ];
   }
 );
+
+export const followers = pgTable(
+  "followers",
+  {
+    salonId: integer("salon_id")
+      .notNull()
+      .references(() => salons.id, { onDelete: "cascade" }),
+    userId: integer("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  },
+  (table) => {
+    return [
+      {
+        pk: primaryKey({ columns: [table.salonId, table.userId] }),
+      },
+    ];
+  }
+);
