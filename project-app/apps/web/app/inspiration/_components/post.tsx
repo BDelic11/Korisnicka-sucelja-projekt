@@ -59,7 +59,7 @@ const Post = async ({ salonName, ...post }: PostProps) => {
             <DialogTitle>{title}</DialogTitle>
             <div className="flex flex-col justify-between ">
               <Image
-                className="object-cover w-full max-h-[500px] m-auto py-20"
+                className="flex-grow object-cover w-full max-h-[500px] m-auto py-20"
                 src={imageUrl}
                 alt={title}
                 // fill
@@ -67,23 +67,25 @@ const Post = async ({ salonName, ...post }: PostProps) => {
                 height={400}
                 // className="object-cover m-auto w-full h-full py-10  "
               />
-              <div className="flex flex-ro^w justify-between align-middle gap-2">
+              <div className="flex flex-row justify-between align-middle ">
                 {salonName && (
                   <Link href={`/salon/${salonId}`}>
-                    <h2 className="text-gray-700 pt-2 font-semibold">
+                    <h2 className="text-gray-700 pt-2 font-semibold absolute bottom-16 left-8 ">
                       {salonName}
                     </h2>
                   </Link>
                 )}
-                <LikesComponent
-                  postId={id}
-                  initialLikedBool={initialLikedBool}
-                  title={title}
-                  likesNumber={likesNumber}
-                />
+                <div className="absolute bottom-16 right-8">
+                  <LikesComponent
+                    postId={id}
+                    initialLikedBool={initialLikedBool}
+                    title={title}
+                    likesNumber={likesNumber}
+                  />
+                </div>
               </div>
             </div>
-            <div className="font-light text-gray-500 text-sm">
+            <div className="absolute bottom-8 left-8 font-light text-gray-500 text-sm">
               {tags ? (
                 tags.map((tag: any) => <span key={tag.id}>#{tag.name}</span>)
               ) : (
