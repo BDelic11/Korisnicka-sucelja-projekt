@@ -28,7 +28,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
   const existingUser = await checkUserByEmail(email);
 
   if (existingUser === true) {
-    return { error: "Email se vec koristi" };
+    return { error: "Email already in use" };
   }
 
   // verification token TODO
@@ -49,5 +49,5 @@ export async function register(values: z.infer<typeof registerSchema>) {
 
   await createSession(createdUser.id);
 
-  return { success: "Uspješno ste se registrirali!" };
+  return { success: "Successfully registered!" };
 }

@@ -35,5 +35,5 @@ export async function login(values: z.infer<typeof loginSchema>) {
 
   //   redirect("/");
 
-  return { success: "Uspješno ste se registrirali!" };
+  return { success: "Successfully logged in!" };
 }

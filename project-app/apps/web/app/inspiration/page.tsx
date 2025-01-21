@@ -18,12 +18,6 @@ export default async function InspirationPage(props: {
   const query = searchParams?.query || "";
   const search = searchParams?.search || "";
 
-  // make me db call to drizzle for fetching these posts from search params and query
-  // now write the db logic here in server component
-
-  // const posts = await getAllPosts();
-  // use posts that are hardcoded for now to show the UI from the above code
-
   return (
     <LayoutContainer>
       <section className="flex w-full items-center justify-between">
