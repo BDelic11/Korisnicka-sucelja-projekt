@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'Change your salon profile',
 };
 
-const ProfilePageComponent = async () => {
+const ProfilePage = async () => {
   const salon = await getSalonInfo();
 
   if (!salon) {
@@ -22,7 +22,7 @@ const ProfilePageComponent = async () => {
     <LayoutContainer className='min-h-screen pt-10 flex flex-col md:flex-row w-full justify-around align-middle'>
       <section>
         <h1 className='text-4xl font-extrabold tracking-tight lg:text-5xl pb-20'>
-          Profile
+          Profile info
         </h1>
         <h1 className='text-2xl font-normal tracking-tight lg:text-2xl'>
           Welcome{' '}
@@ -44,4 +44,4 @@ const ProfilePageComponent = async () => {
   );
 };
 
-export default ProfilePageComponent;
+export default ProfilePage;

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decrypt } from '@repo/ui/lib/session';
 
-const protectedRoutes = ['/gallery', '/'];
+const protectedRoutes = ['/gallery', '/', '/profile'];
 const publicRoutes = ['/login', '/register'];
 
 export default async function middleware(req: NextRequest) {
@@ -12,6 +12,10 @@ export default async function middleware(req: NextRequest) {
   const sessionToken = req.cookies.get('sessionAdmin')?.value;
 
   const session = await decrypt(sessionToken);
+
+  if (isPublicRoute && session) {
+    return NextResponse.redirect(new URL('/', req.nextUrl));
+  }
 
   if (isProtectedRoute && !session) {
     return NextResponse.redirect(new URL('/login', req.nextUrl));
