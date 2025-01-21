@@ -14,7 +14,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
   const validatedFields = registerSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: 'Neispravan unos!' };
+    return { error: 'Wrong input!' };
   }
 
   const { name, surname, email, password } = validatedFields.data;
@@ -24,7 +24,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
   const existingUser = await checkUserByEmail(email);
 
   if (existingUser === true) {
-    return { error: 'Email se vec koristi' };
+    return { error: 'Email already in use!' };
   }
 
   const [createdUser] = await db
@@ -39,7 +39,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
     .returning();
 
   if (!createdUser) {
-    return { error: 'Nije kreiran admin!' };
+    return { error: 'Admin not created!' };
   }
 
   const { salonName, salonDescription, salonLocationUrl, salonPhoneNumber } =
@@ -55,5 +55,5 @@ export async function register(values: z.infer<typeof registerSchema>) {
 
   await createSession(createdUser.id);
 
-  return { success: 'Uspješno ste se registrirali!' };
+  return { success: 'Successfully registered!' };
 }

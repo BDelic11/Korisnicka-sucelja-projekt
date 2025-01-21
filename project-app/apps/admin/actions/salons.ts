@@ -1,13 +1,13 @@
-'use server';
+"use server";
 
-import * as z from 'zod';
+import * as z from "zod";
 
-import { db, eq, salons, users } from '@repo/db';
+import { db, eq, salons, users } from "@repo/db";
 
-import { updateSalonSchema } from '@repo/db/schemas/change-salon-data';
-import { verifySession } from '@/lib/verifySession';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
+import { updateSalonSchema } from "@repo/db/schemas/change-salon-data";
+import { verifySession } from "@/lib/verifySession";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function changeSalonProfileData(
   values: z.infer<typeof updateSalonSchema>
@@ -15,7 +15,7 @@ export async function changeSalonProfileData(
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    redirect('/login');
+    redirect("/login");
   }
   const validatedFields = updateSalonSchema.safeParse(values);
 
@@ -30,7 +30,7 @@ export async function changeSalonProfileData(
     })
     .where(eq(salons.adminId, +userId));
 
-  revalidatePath('/profile');
+  revalidatePath("/profile");
 
-  return { success: 'Uspješno ste se promijenili podatke!' };
+  return { success: "Successful change of data!" };
 }

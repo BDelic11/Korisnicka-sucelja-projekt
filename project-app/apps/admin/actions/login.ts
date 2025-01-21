@@ -30,5 +30,5 @@ export async function login(values: z.infer<typeof loginSchema>) {
 
   await createSession(user.id);
 
-  return { success: 'Uspješno ste se logirali!' };
+  return { success: 'Successfully logged in!' };
 }

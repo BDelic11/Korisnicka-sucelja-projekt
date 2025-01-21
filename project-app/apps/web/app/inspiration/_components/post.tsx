@@ -85,7 +85,7 @@ const Post = async ({ salonName, ...post }: PostProps) => {
             </div>
             <div className="font-light text-gray-500 text-sm">
               {tags ? (
-                tags.map((tag: any) => <span key={tag.id}>{tag.name}</span>)
+                tags.map((tag: any) => <span key={tag.id}>#{tag.name}</span>)
               ) : (
                 <p>No tags</p>
               )}

@@ -97,12 +97,12 @@ export async function deletePost(values: z.infer<typeof deletePostSchema>) {
     .where(eq(posts.id, validatedFields.data.id))
     .innerJoin(salons, eq(salons.adminId, +userId));
 
-  if (!postToDelete) return { error: 'Post not found!' };
+  if (!postToDelete) return { error: 'Post nije pronaden!' };
 
   try {
     await db.delete(posts).where(eq(posts.id, postToDelete.id));
   } catch (error) {
-    return { error: 'Problem with post delete!' };
+    return { error: 'Problem sa brisanjem posta!' };
   }
 
   revalidatePath('/gallery');
@@ -176,5 +176,5 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
 
   revalidatePath('/gallery');
 
-  return { success: 'Uspješno ste se promijenili podatke!' };
+  return { success: 'Successfully changed data!' };
 }
