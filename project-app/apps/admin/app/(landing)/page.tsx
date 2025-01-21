@@ -3,8 +3,14 @@ import { TopTags } from './_components/topTags';
 import { Posts } from './_components/recentPosts';
 import { getStatistic } from '@/actions/utils/salons';
 import LayoutContainer from '@/components/ui/container';
+import { Metadata } from 'next';
 
-export default async function Statistic() {
+export const metadata: Metadata = {
+  title: 'Salon admin landing',
+  description: 'Welcome to salon admin',
+};
+
+export default async function LandingPage() {
   const stats = await getStatistic();
 
   if (!stats) return <p>Problem with loading...</p>;

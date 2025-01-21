@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 import hamburger from '@/public/icons/hamburgerIcon.svg';
-import heart from '@/public/icons/heart.svg';
 import userLogo from '@/public/icons/user.svg';
 import IconLink from './icon-link';
 
@@ -23,11 +22,16 @@ import { deleteSession } from '@/actions/session';
 const mobileToggleLinks = [
   {
     id: 1,
-    label: 'Profile info',
+    label: 'Home',
     href: '/',
   },
   {
     id: 2,
+    label: 'Profile',
+    href: '/profile',
+  },
+  {
+    id: 3,
     label: 'Gallery',
     href: '/gallery',
   },
@@ -36,15 +40,15 @@ const mobileToggleLinks = [
 const desktopIcons = [
   {
     id: 1,
-    label: 'Profile info',
+    label: 'Home',
     linkTo: '/',
-    classname: '',
+    className: '',
   },
   {
     id: 2,
     label: 'Gallery',
     linkTo: '/gallery',
-    classname: '',
+    className: '',
   },
 ];
 
@@ -64,22 +68,24 @@ export async function Navbar() {
         />
       </Link>
 
-      <ul className='hidden md:flex flex-row gap-3 md:gap-6 lg:gap-12 my-auto '>
-        {desktopIcons.map((icon) => (
-          <IconLink
-            underline
-            key={icon.id}
-            classname={icon.classname}
-            linkTo={icon.linkTo}
-            label={icon.label}
-          />
-        ))}
-      </ul>
+      {user && (
+        <ul className='hidden md:flex flex-row gap-3 md:gap-6 lg:gap-12 my-auto '>
+          {desktopIcons.map((icon) => (
+            <IconLink
+              underline
+              key={icon.id}
+              className={icon.className}
+              linkTo={icon.linkTo}
+              label={icon.label}
+            />
+          ))}
+        </ul>
+      )}
 
       <ul className='flex flex-row gap-4 md:gap-4 lg:gap-5 my-auto'>
         <DropdownMenu>
           <DropdownMenuTrigger>
-            <IconLink hover classname='md:hidden' icon={hamburger} linkTo='/' />
+            <IconLink hover className='md:hidden' icon={hamburger} linkTo='/' />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -113,7 +119,7 @@ export async function Navbar() {
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <Link href={'/'}>
+                <Link href={'/profile'}>
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
                 <form action={deleteSession} className='w-full cursor-pointer'>

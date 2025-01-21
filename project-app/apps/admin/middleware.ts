@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { decrypt } from '@repo/ui/lib/session';
 
-const protectedRoutes = ['/gallery', '/'];
+const protectedRoutes = ['/gallery', '/', '/profile'];
 const publicRoutes = ['/login', '/register'];
 
 export default async function middleware(req: NextRequest) {

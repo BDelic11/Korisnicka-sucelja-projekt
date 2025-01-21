@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   description: 'Change your salon profile',
 };
 
-const ProfilePageComponent = async () => {
+const ProfilePage = async () => {
   const salon = await getSalonInfo();
 
   if (!salon) {
@@ -44,4 +44,4 @@ const ProfilePageComponent = async () => {
   );
 };
 
-export default ProfilePageComponent;
+export default ProfilePage;

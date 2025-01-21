@@ -12,8 +12,8 @@ import { SalonPostsGrid } from './_components/salon-images-grid';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Gallery',
-  description: 'Page with salon gallery',
+  title: 'Salon gallery',
+  description: 'Welcome to salon admin gallery',
 };
 
 export default async function Gallery() {
