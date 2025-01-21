@@ -1,34 +1,34 @@
-'use server';
+"use server";
 
-import * as z from 'zod';
+import * as z from "zod";
 
-import { db, eq, inArray, posts, postsToTags, salons } from '@repo/db';
+import { db, eq, inArray, posts, postsToTags, salons } from "@repo/db";
 
-import { editPostSchema, postSchema } from '@repo/db/schemas/post-data';
-import { verifySession } from '@/lib/verifySession';
-import { redirect } from 'next/navigation';
-import { revalidatePath } from 'next/cache';
-import { getSalonByAdminId } from './utils/salons';
-import { handleImageUpload } from './cloudinary';
-import { getPostById } from './utils/posts';
-import { getPostTagsByPostId } from './utils/tags';
-import { Post } from '@repo/db/types';
-import { deletePostSchema } from '@repo/db/schemas/delete-post-data';
+import { editPostSchema, postSchema } from "@repo/db/schemas/post-data";
+import { verifySession } from "@/lib/verifySession";
+import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
+import { getSalonByAdminId } from "./utils/salons";
+import { handleImageUpload } from "./cloudinary";
+import { getPostById } from "./utils/posts";
+import { getPostTagsByPostId } from "./utils/tags";
+import { Post } from "@repo/db/types";
+import { deletePostSchema } from "@repo/db/schemas/delete-post-data";
 
 export async function createPostData(data: FormData) {
   const { isAuth, userId } = await verifySession();
-  if (!isAuth || !userId) redirect('/login');
+  if (!isAuth || !userId) redirect("/login");
 
   var salon = await getSalonByAdminId();
-  if (!salon) redirect('/login');
+  if (!salon) redirect("/login");
 
-  const title = data.get('title')?.toString();
-  const tagIds = JSON.parse(data.get('tagIds')?.toString() || '[]');
-  const image = data.get('image') as File | null;
+  const title = data.get("title")?.toString();
+  const tagIds = JSON.parse(data.get("tagIds")?.toString() || "[]");
+  const image = data.get("image") as File | null;
 
   const validation = postSchema.safeParse({ title, tagIds, image });
   if (!validation.success) {
-    return { error: 'Neispravan unos!' };
+    return { error: "Neispravan unos!" };
   }
   const {
     title: validatedTitle,
@@ -39,7 +39,7 @@ export async function createPostData(data: FormData) {
   const imageUri = await handleImageUpload(validatedImage, salon);
 
   if (!imageUri) {
-    return { error: 'Problem sa spremanjem slike' };
+    return { error: "Problem sa spremanjem slike" };
   }
 
   let post: Post | undefined;
@@ -54,11 +54,11 @@ export async function createPostData(data: FormData) {
       })
       .returning();
   } catch (error) {
-    return { error: 'Problem sa spremanjem posta u bazu.' };
+    return { error: "Problem sa spremanjem posta u bazu." };
   }
 
   if (!post) {
-    return { error: 'Problem sa spremanjem posta u bazu.' };
+    return { error: "Problem sa spremanjem posta u bazu." };
   }
 
   const postToTagsToAdd = validatedTagIds.map((tagId) => ({
@@ -69,20 +69,20 @@ export async function createPostData(data: FormData) {
   try {
     await db.insert(postsToTags).values(postToTagsToAdd);
   } catch (error) {
-    console.error('Error inserting tags into database:', error);
-    return { error: 'Problem sa spremanjem tagova.' };
+    console.error("Error inserting tags into database:", error);
+    return { error: "Problem sa spremanjem tagova." };
   }
 
-  revalidatePath('/gallery');
+  revalidatePath("/gallery");
 
-  return { success: 'Uspješno ste se promijenili podatke!' };
+  return { success: "Uspješno ste se promijenili podatke!" };
 }
 
 export async function deletePost(values: z.infer<typeof deletePostSchema>) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const validatedFields = deletePostSchema.safeParse(values);
@@ -97,30 +97,30 @@ export async function deletePost(values: z.infer<typeof deletePostSchema>) {
     .where(eq(posts.id, validatedFields.data.id))
     .innerJoin(salons, eq(salons.adminId, +userId));
 
-  if (!postToDelete) return { error: 'Post not found!' };
+  if (!postToDelete) return { error: "Post nije pronaden!" };
 
   try {
     await db.delete(posts).where(eq(posts.id, postToDelete.id));
   } catch (error) {
-    return { error: 'Problem with post delete!' };
+    return { error: "Problem sa brisanjem posta!" };
   }
 
-  revalidatePath('/gallery');
+  revalidatePath("/gallery");
 
-  return { success: 'Uspješno ste se promijenili podatke!' };
+  return { success: "Uspješno ste se promijenili podatke!" };
 }
 
 export async function editPostData(values: z.infer<typeof editPostSchema>) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    redirect('/login');
+    redirect("/login");
   }
 
   var salon = await getSalonByAdminId();
 
   if (!salon) {
-    redirect('/login');
+    redirect("/login");
   }
 
   const validatedFields = editPostSchema.safeParse(values);
@@ -133,7 +133,7 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
 
   const postToEdit = await getPostById(postToEditForm.id);
 
-  if (!postToEdit) return { error: 'Post not found!' };
+  if (!postToEdit) return { error: "Post not found" };
 
   console.log(1);
 
@@ -166,16 +166,16 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
       .delete(postsToTags)
       .where(inArray(postsToTags.postId, tagIdsToDelete));
 
-    console.log('12');
+    console.log("12");
   }
 
   if (postToEditForm.tagIds.length > 0) {
-    console.log('13');
+    console.log("13");
 
     const tagsToAdd = newPostToTags.filter(
       (newTag) => !oldPostToTags.some((oldTag) => oldTag.tagId === newTag.tagId)
     );
-    console.log('14');
+    console.log("14");
 
     for (const tag of tagsToAdd) {
       await db.insert(postsToTags).values({
@@ -185,7 +185,7 @@ export async function editPostData(values: z.infer<typeof editPostSchema>) {
     }
   }
 
-  revalidatePath('/gallery');
+  revalidatePath("/gallery");
 
-  return { success: 'Uspješno ste se promijenili podatke!' };
+  return { success: "Successfully changed data!" };
 }

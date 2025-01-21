@@ -26,7 +26,7 @@ import { deleteSession } from "@/actions/session";
 const mobileToggleLinks = [
   {
     id: 1,
-    label: "Inpiration",
+    label: "Inspiration",
     href: "/inspiration",
   },
   {
