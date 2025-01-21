@@ -1,5 +1,17 @@
 import { getSession } from '@/lib/session';
-import { db, eq, salons, and, posts, desc, postsToTags } from '@repo/db';
+import {
+  db,
+  eq,
+  salons,
+  and,
+  posts,
+  desc,
+  postsToTags,
+  sql,
+  count,
+  sum,
+  tags,
+} from '@repo/db';
 import { PostForEditDto } from '@repo/db/types';
 import { cache } from 'react';
 import 'server-only';
@@ -86,4 +98,83 @@ export const getSalonByAdminId = async () => {
     .where(eq(salons.adminId, adminId));
 
   return salon;
+};
+
+export const getStatistic = async () => {
+  try {
+    const salon = await getSalonByAdminId();
+
+    if (!salon) throw new Error('Not found');
+
+    const { id: salonId } = salon;
+
+    console.log('aj');
+
+    const [totalPosts] = await db
+      .select({ count: count() })
+      .from(posts)
+      .where(eq(posts.salonId, salonId));
+
+    console.log('aj1 ');
+
+    const [totalLikes] = await db
+      .select({ numberOfLikes: sum(posts.likesNumber) })
+      .from(posts)
+      .where(eq(posts.salonId, salonId));
+
+    const [totalFollowers] = await db
+      .select({ followersNumber: salons.followersNumber })
+      .from(salons)
+      .where(eq(salons.id, salonId));
+
+    console.log('a3');
+
+    const topTags = await db
+      .select({ name: tags.name, count: count() })
+      .from(postsToTags)
+      .innerJoin(posts, eq(posts.id, postsToTags.postId))
+      .innerJoin(tags, eq(tags.id, postsToTags.tagId))
+      .where(eq(posts.salonId, salonId))
+      .groupBy(tags.id)
+      .orderBy(sql`count(*) DESC`)
+      .limit(5);
+    console.log('a4');
+
+    const recentPosts = await db
+      .select({
+        id: posts.id,
+        title: posts.title,
+        likesNumber: posts.likesNumber,
+        createdAt: posts.createdAt,
+      })
+      .from(posts)
+      .where(eq(posts.salonId, salonId))
+      .orderBy(posts.createdAt)
+      .limit(5);
+
+    const topPosts = await db
+      .select({
+        id: posts.id,
+        title: posts.title,
+        likesNumber: posts.likesNumber,
+        createdAt: posts.createdAt,
+      })
+      .from(posts)
+      .where(eq(posts.salonId, salonId))
+      .orderBy(desc(posts.likesNumber))
+      .limit(5);
+
+    console.log('a5');
+
+    return {
+      totalPosts: totalPosts?.count ?? 0,
+      totalLikes: Number(totalLikes?.numberOfLikes) ?? 0,
+      totalFollowers: totalFollowers?.followersNumber ?? 0,
+      topTags: topTags,
+      recentPosts: recentPosts,
+      topPosts: topPosts,
+    };
+  } catch (error) {
+    return { error: 'Error with fetching data' };
+  }
 };
