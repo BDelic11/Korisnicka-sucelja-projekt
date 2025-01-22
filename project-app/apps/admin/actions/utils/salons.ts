@@ -108,14 +108,10 @@ export const getStatistic = async () => {
 
     const { id: salonId } = salon;
 
-    console.log('aj');
-
     const [totalPosts] = await db
       .select({ count: count() })
       .from(posts)
       .where(eq(posts.salonId, salonId));
-
-    console.log('aj1 ');
 
     const [totalLikes] = await db
       .select({ numberOfLikes: sum(posts.likesNumber) })
@@ -127,8 +123,6 @@ export const getStatistic = async () => {
       .from(salons)
       .where(eq(salons.id, salonId));
 
-    console.log('a3');
-
     const topTags = await db
       .select({ name: tags.name, count: count() })
       .from(postsToTags)
@@ -138,7 +132,6 @@ export const getStatistic = async () => {
       .groupBy(tags.id)
       .orderBy(sql`count(*) DESC`)
       .limit(5);
-    console.log('a4');
 
     const recentPosts = await db
       .select({
@@ -163,8 +156,6 @@ export const getStatistic = async () => {
       .where(eq(posts.salonId, salonId))
       .orderBy(desc(posts.likesNumber))
       .limit(5);
-
-    console.log('a5');
 
     return {
       totalPosts: totalPosts?.count ?? 0,
