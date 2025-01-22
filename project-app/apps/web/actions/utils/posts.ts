@@ -1,4 +1,4 @@
-import "server-only";
+import 'server-only';
 // "use server";
 
 import {
@@ -12,9 +12,14 @@ import {
   and,
   ilike,
   followers,
-} from "@repo/db";
-import { cache } from "react";
-import { verifySession } from "@/lib/verifySession";
+  sql,
+  tags,
+  SQL,
+  like,
+  or,
+} from '@repo/db';
+import { cache } from 'react';
+import { verifySession } from '@/lib/verifySession';
 
 export const getAllPosts = cache(async () => {
   try {
@@ -32,7 +37,7 @@ export const getAllPosts = cache(async () => {
 
     return postsWithSalonData;
   } catch (error) {
-    throw new Error("Failed to fetch posts data.");
+    throw new Error('Failed to fetch posts data.');
   }
 });
 
@@ -44,16 +49,15 @@ export const getSearchedSalons = async (searchTerm: string) => {
       .where(ilike(salons.name, `%${searchTerm}%`));
 
     if (!searchedSalons.length) {
-      console.log("No salons found matching search term");
       return [];
     }
 
     return searchedSalons;
   } catch (error) {
-    console.error("Error fetching filtered posts:", error);
-    throw new Error("Failed to fetch posts data.");
+    throw new Error('Failed to fetch posts data.');
   }
 };
+
 export const getPostBySearchedSalons = async (
   searchedSalons: { salonId: number }[]
 ) => {
@@ -77,46 +81,11 @@ export const getPostBySearchedSalons = async (
         )
       );
 
-    console.log("postsData (filtered by search term):", postsData);
+    console.log('postsData (filtered by search term):', postsData);
     return postsData;
   } catch (error) {
-    console.error("Error fetching filtered posts:", error);
-    throw new Error("Failed to fetch posts data.");
-  }
-};
-export const getPostBySearchedTaggedSalons = async (
-  searchedSalons: { salonId: number }[],
-  tagIdArray: number[]
-) => {
-  try {
-    const postsData = await db
-      .select({
-        id: posts.id,
-        title: posts.title,
-        imageUrl: posts.imageUrl,
-        likesNumber: posts.likesNumber,
-        createdAt: posts.createdAt,
-        salonId: posts.salonId,
-        salonName: salons.name,
-      })
-      .from(posts)
-      .innerJoin(salons, eq(posts.salonId, salons.id))
-      .innerJoin(postsToTags, eq(posts.id, postsToTags.postId))
-      .where(
-        and(
-          inArray(postsToTags.tagId, tagIdArray),
-          inArray(
-            posts.salonId,
-            searchedSalons.map((salon) => salon.salonId)
-          )
-        )
-      );
-
-    console.log("postsData (filtered by search and tag term):", postsData);
-    return postsData;
-  } catch (error) {
-    console.error("Error fetching filtered posts:", error);
-    throw new Error("Failed to fetch posts data.");
+    console.error('Error fetching filtered posts:', error);
+    throw new Error('Failed to fetch posts data.');
   }
 };
 
@@ -124,81 +93,38 @@ export const getFilteredPosts = async (
   tagIdArray: number[],
   searchTerm: string
 ) => {
-  const searchedSalons = await getSearchedSalons(searchTerm);
+  const filteredPosts = await db
+    .select({
+      id: posts.id,
+      title: posts.title,
+      imageUrl: posts.imageUrl,
+      likesNumber: posts.likesNumber,
+      createdAt: posts.createdAt,
+      salonId: posts.salonId,
+      salonName: salons.name,
+    })
+    .from(posts)
+    .innerJoin(postsToTags, eq(posts.id, postsToTags.postId))
+    .innerJoin(salons, eq(posts.salonId, salons.id))
+    .where(
+      or(
+        tagIdArray.length > 0
+          ? and(
+              inArray(postsToTags.tagId, tagIdArray),
+              like(salons.name, `%${searchTerm}%`)
+            )
+          : like(salons.name, `%${searchTerm}%`)
+      )
+    )
+    .groupBy(posts.id, salons.name)
+    .having(
+      tagIdArray.length > 0
+        ? sql`COUNT(DISTINCT ${postsToTags.tagId}) = ${tagIdArray.length}`
+        : sql`true`
+    )
+    .orderBy(posts.id);
 
-  if (searchedSalons.length) {
-    if (tagIdArray.length !== 0) {
-      const postsData = await getPostBySearchedTaggedSalons(
-        searchedSalons,
-        tagIdArray
-      );
-      if (postsData.length) {
-        return postsData;
-      }
-    } else {
-      const postsData = await getPostBySearchedSalons(searchedSalons);
-      if (postsData.length) {
-        return postsData;
-      }
-    }
-  }
-  //   if (postsData.length === 0) {
-  //     return postsData;
-  //   }
-  //   if (tagIdArray.length !== 0) {
-  //     const postsData = await getPostBySearchedTaggedSalons(
-  //       searchedSalons,
-  //       tagIdArray
-  //     );
-  //     if (postsData.length === 0) {
-  //       return postsData;
-  //     }
-  //   }
-  // } else {
-  // }
-  try {
-    // If no tag IDs are provided, return all posts
-    if (tagIdArray.length === 0) {
-      const postsData = await db
-        .select({
-          id: posts.id,
-          title: posts.title,
-          imageUrl: posts.imageUrl,
-          likesNumber: posts.likesNumber,
-          createdAt: posts.createdAt,
-          salonId: posts.salonId,
-          salonName: salons.name,
-        })
-        .from(posts)
-        .innerJoin(salons, eq(posts.salonId, salons.id));
-
-      console.log("postsData (no tags provided):", postsData);
-      return postsData;
-    }
-
-    // Fetch posts that are linked to the given tag IDs
-    const postsData = await db
-      .select({
-        id: posts.id,
-        title: posts.title,
-        imageUrl: posts.imageUrl,
-        likesNumber: posts.likesNumber,
-        createdAt: posts.createdAt,
-        salonId: posts.salonId,
-        salonName: salons.name,
-      })
-      .from(posts)
-      .innerJoin(postsToTags, eq(posts.id, postsToTags.postId))
-      .innerJoin(salons, eq(posts.salonId, salons.id))
-      .where(inArray(postsToTags.tagId, tagIdArray));
-
-    console.log("postsData (filtered by tag IDs):", postsData);
-
-    return postsData;
-  } catch (error) {
-    console.error("Error fetching filtered posts:", error);
-    throw new Error("Failed to fetch posts data.");
-  }
+  return filteredPosts;
 };
 
 //Likes
@@ -206,7 +132,7 @@ export async function isPostLiked(postId: number) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    console.error("User is not authenticated");
+    console.error('User is not authenticated');
     return false;
   }
 
@@ -216,13 +142,13 @@ export async function isPostLiked(postId: number) {
       .from(likes)
       .where(and(eq(likes.userId, userId), eq(likes.postId, postId)));
     if (!isLiked.length) {
-      console.log("Post is not liked");
+      console.log('Post is not liked');
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error("Failed to check if post is liked:", error);
+    console.error('Failed to check if post is liked:', error);
     return false;
   }
 }
@@ -232,7 +158,7 @@ export async function isSalonFollowed(salonId: number) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    console.error("User is not authenticated");
+    console.error('User is not authenticated');
     return false;
   }
 
@@ -242,13 +168,13 @@ export async function isSalonFollowed(salonId: number) {
       .from(followers)
       .where(and(eq(followers.userId, userId), eq(followers.salonId, salonId)));
     if (!isFollowed.length) {
-      console.log("Salon is not followed");
+      console.log('Salon is not followed');
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error("Failed to check if salon is followed:", error);
+    console.error('Failed to check if salon is followed:', error);
     return false;
   }
 }
