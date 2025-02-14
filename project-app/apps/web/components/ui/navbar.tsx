@@ -97,14 +97,15 @@ export async function Navbar() {
                 <DropdownMenuItem>{link.label}</DropdownMenuItem>
               </Link>
             ))}
-
-            <form action={deleteSession} className="w-full cursor-pointer">
-              <button className="w-full">
-                <DropdownMenuItem className="text-red-500">
-                  Logout
-                </DropdownMenuItem>
-              </button>
-            </form>
+            {isAuth && user && (
+              <form action={deleteSession} className="w-full cursor-pointer">
+                <button className="w-full">
+                  <DropdownMenuItem className="text-red-500">
+                    Logout
+                  </DropdownMenuItem>
+                </button>
+              </form>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
 
