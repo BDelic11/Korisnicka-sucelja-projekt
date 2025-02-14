@@ -81,7 +81,7 @@ export function RegisterForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleRegister)}
-        className="space-y-4 px-4 flex flex-col w-1/2  h-full"
+        className="space-y-4 px-4 flex flex-col w-1/2 h-full"
       >
         {currentStep === 1 && (
           <>
