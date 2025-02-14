@@ -37,7 +37,7 @@ const ProfilePage = async () => {
         <Image
           src={profileIllustration}
           alt="Profile illustration"
-          className="w-full h-auto max-w-[800px] m-auto "
+          className="w-full h-auto max-w-[800px] m-auto my-10 md:mt-0 "
         />
       </section>
     </LayoutContainer>
