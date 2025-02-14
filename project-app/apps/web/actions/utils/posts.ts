@@ -1,4 +1,4 @@
-import 'server-only';
+import "server-only";
 // "use server";
 
 import {
@@ -17,9 +17,10 @@ import {
   SQL,
   like,
   or,
-} from '@repo/db';
-import { cache } from 'react';
-import { verifySession } from '@/lib/verifySession';
+} from "@repo/db";
+import { cache } from "react";
+import { verifySession } from "@/lib/verifySession";
+import { redirect } from "next/navigation";
 
 export const getAllPosts = cache(async () => {
   try {
@@ -37,7 +38,7 @@ export const getAllPosts = cache(async () => {
 
     return postsWithSalonData;
   } catch (error) {
-    throw new Error('Failed to fetch posts data.');
+    throw new Error("Failed to fetch posts data.");
   }
 });
 
@@ -54,7 +55,7 @@ export const getSearchedSalons = async (searchTerm: string) => {
 
     return searchedSalons;
   } catch (error) {
-    throw new Error('Failed to fetch posts data.');
+    throw new Error("Failed to fetch posts data.");
   }
 };
 
@@ -81,11 +82,11 @@ export const getPostBySearchedSalons = async (
         )
       );
 
-    console.log('postsData (filtered by search term):', postsData);
+    console.log("postsData (filtered by search term):", postsData);
     return postsData;
   } catch (error) {
-    console.error('Error fetching filtered posts:', error);
-    throw new Error('Failed to fetch posts data.');
+    console.error("Error fetching filtered posts:", error);
+    throw new Error("Failed to fetch posts data.");
   }
 };
 
@@ -132,8 +133,7 @@ export async function isPostLiked(postId: number) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    console.error('User is not authenticated');
-    return false;
+    redirect("/login");
   }
 
   try {
@@ -142,13 +142,13 @@ export async function isPostLiked(postId: number) {
       .from(likes)
       .where(and(eq(likes.userId, userId), eq(likes.postId, postId)));
     if (!isLiked.length) {
-      console.log('Post is not liked');
+      console.log("Post is not liked");
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Failed to check if post is liked:', error);
+    console.error("Failed to check if post is liked:", error);
     return false;
   }
 }
@@ -158,8 +158,7 @@ export async function isSalonFollowed(salonId: number) {
   const { isAuth, userId } = await verifySession();
 
   if (!isAuth || !userId) {
-    console.error('User is not authenticated');
-    return false;
+    redirect("/login");
   }
 
   try {
@@ -168,13 +167,13 @@ export async function isSalonFollowed(salonId: number) {
       .from(followers)
       .where(and(eq(followers.userId, userId), eq(followers.salonId, salonId)));
     if (!isFollowed.length) {
-      console.log('Salon is not followed');
+      console.log("Salon is not followed");
       return false;
     }
 
     return true;
   } catch (error) {
-    console.error('Failed to check if salon is followed:', error);
+    console.error("Failed to check if salon is followed:", error);
     return false;
   }
 }

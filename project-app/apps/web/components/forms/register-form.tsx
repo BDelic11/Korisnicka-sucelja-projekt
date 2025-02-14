@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 // schema
-import { registerSchema } from "@repo/db/schemas/register";
+import { registerSchemaUser } from "@repo/db/schemas/register";
 
 // api
 // import { useCreateUser } from "@/api/users/useCreateUser";
@@ -37,8 +37,8 @@ export function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const form = useForm<z.infer<typeof registerSchema>>({
-    resolver: zodResolver(registerSchema),
+  const form = useForm<z.infer<typeof registerSchemaUser>>({
+    resolver: zodResolver(registerSchemaUser),
     defaultValues: {
       name: "",
       surname: "",
@@ -60,9 +60,11 @@ export function RegisterForm() {
   //   const createUser = useCreateUser();
 
   // Function to handle form submission
-  async function handleRegister(formData: z.infer<typeof registerSchema>) {
+  async function handleRegister(formData: z.infer<typeof registerSchemaUser>) {
+    console.log(formData);
     setIsLoading(true);
     const response = await register(formData);
+    console.log(response);
 
     if (response.success) {
       toast({
@@ -81,7 +83,7 @@ export function RegisterForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleRegister)}
-        className="space-y-4 px-4 flex flex-col w-1/2 h-full"
+        className="space-y-4 flex flex-col md:w-1/2 h-full"
       >
         {currentStep === 1 && (
           <>
@@ -188,8 +190,8 @@ export function RegisterForm() {
             <Button
               size="default"
               className="mt-10 w-full "
-              type="submit"
               disabled={isLoading}
+              type="submit"
             >
               {isLoading ? "Loading..." : "Register"}
             </Button>
