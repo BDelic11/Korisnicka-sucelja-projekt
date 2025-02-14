@@ -14,7 +14,7 @@ const ProfilePageComponent = async () => {
   const { userId } = await verifySession();
   if (!userId) {
     return (
-      <main className=" flex-grow flex flex-col justify-center align-middle  md:w-full md:h-full md:my-auto md:px-24">
+      <main className=" flex-grow flex flex-col justify-center align-middle  md:w-full md:h-full md:my-auto md:px-24 ">
         <center>
           <p className="mx-4">
             You are not logged in. Please log in to see your profile
@@ -31,7 +31,7 @@ const ProfilePageComponent = async () => {
   const user = await getUserAllDataById(userId);
 
   return (
-    <LayoutContainer className="min-h-screen pt-10 flex flex-col md:flex-row w-full justify-around align-middle">
+    <LayoutContainer className="min-h-screen pt-10 flex flex-col md:flex-row w-full justify-around align-middle mt-16 md:mt-20">
       <section>
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl pb-20">
           Profile

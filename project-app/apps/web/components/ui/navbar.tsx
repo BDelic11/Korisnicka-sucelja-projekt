@@ -4,7 +4,7 @@ import Image from "next/image";
 //icons
 // import LOGO from "@/public/logos/Stylist logo_grey_xl.png";
 import hamburger from "@/public/icons/hamburgerIcon.svg";
-import userLogo from "@/public/icons/user.svg";
+import logoIcon from "@/public/favicons/Stylist_favicon.png";
 import IconLink from "./icon-link";
 
 //actions
@@ -60,13 +60,14 @@ export async function Navbar() {
   const user = await getNameBySession(userId);
 
   return (
-    <nav className=" font-roboto_slab lg:text-lg sticky top-0 flex flex-row justify-between items-center w-full h-16 p-4 bg-transoarent rounded-none md:h-20 duration-100 delay-75 z-10 md:px-20 ">
+    <nav className="bg-white shadow-sm font-roboto_slab lg:text-lg fixed top-0 flex flex-row justify-between items-center w-full h-16 pr-4 bg-transoarent rounded-none md:h-20 duration-100 delay-75 z-10 md:px-20 ">
       {/* Logo on left side */}
       <Link href={"/"} className="">
         <Image
-          src={userLogo}
+          src={logoIcon}
           alt="Logo icon"
-          className="w-6 h-6 md:w-10   md:h-auto "
+          className="w-14 h-14  md:w-20  md:h-auto "
+
           // width={24}
           // height={24}
         />

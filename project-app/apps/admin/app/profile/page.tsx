@@ -19,7 +19,7 @@ const ProfilePage = async () => {
   }
 
   return (
-    <LayoutContainer className="min-h-screen pt-10 flex flex-col md:flex-row md:gap-20 w-full justify-around align-middle pb-20">
+    <LayoutContainer className="min-h-screen pt-10 flex flex-col md:flex-row md:gap-20 w-full justify-around align-middle pb-20 mt-16 md:mt-20">
       <section>
         <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl pb-20">
           Profile info
