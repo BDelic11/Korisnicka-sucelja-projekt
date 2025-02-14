@@ -8,7 +8,7 @@ export default async function LoginPage() {
   return (
     <main className="flex-grow flex items-center justify-center">
       <section
-        className="flex flex-col justify-center md:justify-around align-middle md:flex-row md:mx-20 md:pb-10 md:px-20 md:border md:bg-white md:rounded-md 
+        className=" mt-20 md:mt-24 flex flex-col justify-center md:justify-around align-middle md:flex-row md:mx-20 md:pb-10 md:px-20 md:border md:bg-white md:rounded-md 
      "
       >
         <div className="my-auto  md:w-1/3 ">
