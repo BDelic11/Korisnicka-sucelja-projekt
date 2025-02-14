@@ -14,11 +14,15 @@ const ProfilePageComponent = async () => {
   const { userId } = await verifySession();
   if (!userId) {
     return (
-      <main className=" min-h-screen flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24">
+      <main className=" flex-grow flex flex-col justify-center align-middle  md:w-full md:h-full md:my-auto md:px-24">
         <center>
-          <p>You are not logged in. Please log in to see your profile</p>
+          <p className="mx-4">
+            You are not logged in. Please log in to see your profile
+          </p>
           <Button asChild>
-            <Link href="/login">Go to Login page</Link>
+            <Link href="/login" className="my-4">
+              Go to Login page
+            </Link>
           </Button>
         </center>
       </main>
@@ -37,18 +41,20 @@ const ProfilePageComponent = async () => {
           <span className="text-stylist-blue text-bold">{user?.name} </span>
           you can change your profile info here
         </h1>
-        <div className="flex flex-col gap-4 my-10">
+        <div className="flex flex-col gap-4 mt-10 mb-4">
           <ProfileForm user={user} />
         </div>
         <div className="flex flex-row gap-2">
-          <Button variant="destructive">Delete Account</Button>
+          {/* <Button variant="destructive" className="w-full ">
+            Delete Account
+          </Button> */}
         </div>
       </section>
       <section className="m-auto">
         <Image
           src={profileIllustration}
           alt="Profile illustration"
-          className="w-full h-auto max-w-[600px] m-auto "
+          className="w-full h-auto max-w-[600px] m-auto mt-20 md:mt-0"
         />
       </section>
     </LayoutContainer>

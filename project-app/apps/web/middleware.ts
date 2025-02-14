@@ -12,21 +12,15 @@ export default async function middleware(req: NextRequest) {
 
   const sessionToken = req.cookies.get("session")?.value;
 
-  // Check if the session cookie is retrieved
-  console.log("Session Cookie:", sessionToken);
-
   const session = await decrypt(sessionToken);
-
-  // Log session to debug its contents
-  console.log("Decrypted Session:", session);
-
-  if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL("/login", req.nextUrl));
-  }
 
   // if (isPublicRoute && session) {
   //   return NextResponse.redirect(new URL("/", req.nextUrl));
   // }
+
+  if (isProtectedRoute && !session) {
+    return NextResponse.redirect(new URL("/login", req.nextUrl));
+  }
 
   return NextResponse.next();
 }
