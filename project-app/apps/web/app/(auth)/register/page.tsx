@@ -8,7 +8,7 @@ export default async function RegisterPage() {
   return (
     <main className="flex-grow items-center  ">
       <section
-        className="flex flex-col justify-center md:justify-around align-middle md:flex-row md:mx-20 md:py-10 md:px-20  md:border  md:bg-white md:rounded-md 
+        className="flex flex-col px-4 justify-center md:justify-around align-middle md:flex-row md:mx-20 md:py-10 md:px-20  md:border  md:bg-white md:rounded-md 
      "
       >
         <div className="my-auto md:w-1/2 ">
@@ -19,7 +19,7 @@ export default async function RegisterPage() {
           <Image
             src={illustration}
             alt="illustration image"
-            className=" h-72 w-auto "
+            className=" h-72 w-auto my-10 md:my-0"
           />
         </div>
         <RegisterForm />

@@ -1,12 +1,12 @@
-'use client';
-import { Loader2 } from 'lucide-react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
-import { updateSalonSchema as formSchema } from '@repo/db/schemas/change-salon-data';
-import { Button } from '@/components/ui/button';
+"use client";
+import { Loader2 } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { updateSalonSchema as formSchema } from "@repo/db/schemas/change-salon-data";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -15,24 +15,24 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import FormError from '../ui/form-error';
-import { UpdateSalonDto } from '@repo/db/types';
-import { changeSalonProfileData } from '@/actions/salons';
-import { Textarea } from '../ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import FormError from "../ui/form-error";
+import { UpdateSalonDto } from "@repo/db/types";
+import { changeSalonProfileData } from "@/actions/salons";
+import { Textarea } from "../ui/textarea";
 
 export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
   const { toast } = useToast();
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: salon.name,
-      description: salon.description || '',
+      description: salon.description || "",
       locationUrl: salon.locationUrl,
       phoneNumber: salon.phoneNumber,
     },
@@ -40,7 +40,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
 
   async function handleChangeUserData(formData: z.infer<typeof formSchema>) {
     setIsLoading(true);
-    setError('');
+    setError("");
 
     const response = await changeSalonProfileData(formData);
     if (response.error) {
@@ -59,16 +59,16 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleChangeUserData)}
-        className='space-y-4 flex flex-col w-full px-4'
+        className="space-y-4 flex flex-col w-full "
       >
         <FormField
           control={form.control}
-          name='name'
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input type='text' {...field} />
+                <Input type="text" {...field} />
               </FormControl>
               <FormDescription>
                 Enter a salon name you would like to switch to.
@@ -80,12 +80,12 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
 
         <FormField
           control={form.control}
-          name='phoneNumber'
+          name="phoneNumber"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Phone number</FormLabel>
               <FormControl>
-                <Input type='tel' {...field} />
+                <Input type="tel" {...field} />
               </FormControl>
               <FormDescription>Enter another phone number.</FormDescription>
               <FormMessage />
@@ -95,12 +95,12 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
 
         <FormField
           control={form.control}
-          name='locationUrl'
+          name="locationUrl"
           render={({ field }) => (
             <FormItem>
               <FormLabel>LocationURL</FormLabel>
               <FormControl>
-                <Input type='url' {...field} />
+                <Input type="url" {...field} />
               </FormControl>
               <FormDescription>Enter another location URL.</FormDescription>
               <FormMessage />
@@ -110,7 +110,7 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
 
         <FormField
           control={form.control}
-          name='description'
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
@@ -126,18 +126,18 @@ export function ProfileForm({ salon }: { salon: UpdateSalonDto }) {
         {error && <FormError message={error} />}
 
         <Button
-          size='default'
-          className='mt-10 w-full '
-          type='submit'
+          size="default"
+          className="mt-10 w-full "
+          type="submit"
           disabled={isLoading}
         >
           {isLoading ? (
             <>
-              <Loader2 className='animate-spin' />
+              <Loader2 className="animate-spin" />
               <p>Changing</p>
             </>
           ) : (
-            'Change salon data'
+            "Change salon data"
           )}
         </Button>
       </form>
