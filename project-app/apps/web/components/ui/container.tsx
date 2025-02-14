@@ -6,7 +6,9 @@ const LayoutContainer = ({
   className?: string;
 }) => {
   return (
-    <main className={`${className} min-h-full px-6  md:px-24 lg:px-52`}>
+    <main
+      className={`${className} min-h-full px-6 md:mt-20  md:px-24 lg:px-52`}
+    >
       {children}
     </main>
   );

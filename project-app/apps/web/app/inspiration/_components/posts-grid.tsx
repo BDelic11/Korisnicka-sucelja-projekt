@@ -31,7 +31,7 @@ export async function PostsGrid({
   }
 
   return (
-    <section className="w-full md:min-h-[100vh]">
+    <section className="w-full md:min-h-[100vh] md:pt-0 pt-4">
       <article className="grid grid-cols-3 md:grid-cols-4  md:gap-0 w-full h-full  md:mt-10">
         {posts.map((post: PostComponentDto) => (
           <Post

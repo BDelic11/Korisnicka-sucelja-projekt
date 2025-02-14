@@ -10,7 +10,7 @@ import HeroSection from "@/components/aboutPageSections/heroSection";
 
 export default async function Home() {
   return (
-    <LayoutContainer className="pt-20 min-h-screen md:pt-0 ">
+    <LayoutContainer className="pt-28 min-h-screen md:pt-4">
       <HeroSection />
       <section className="block mt-10 md:hidden md:mt-0 ">
         <Image
