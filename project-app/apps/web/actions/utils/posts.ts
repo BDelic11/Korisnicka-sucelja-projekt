@@ -112,9 +112,9 @@ export const getFilteredPosts = async (
         tagIdArray.length > 0
           ? and(
               inArray(postsToTags.tagId, tagIdArray),
-              like(salons.name, `%${searchTerm}%`)
+              ilike(salons.name, `%${searchTerm}%`)
             )
-          : like(salons.name, `%${searchTerm}%`)
+          : ilike(salons.name, `%${searchTerm}%`)
       )
     )
     .groupBy(posts.id, salons.name)
