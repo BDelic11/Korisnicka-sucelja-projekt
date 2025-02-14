@@ -6,14 +6,14 @@ import bcrypt from "bcryptjs";
 import { db, users } from "@repo/db";
 
 //schema
-import { registerSchema } from "@repo/db/schemas/register";
+import { registerSchemaUser } from "@repo/db/schemas/register";
 
 //actions
 import { createSession } from "@/lib/session";
 import { checkUserByEmail } from "./utils/users";
 
-export async function register(values: z.infer<typeof registerSchema>) {
-  const validatedFields = registerSchema.safeParse(values);
+export async function register(values: z.infer<typeof registerSchemaUser>) {
+  const validatedFields = registerSchemaUser.safeParse(values);
 
   if (!validatedFields.success) {
     return { error: "Neispravan unos!" };
@@ -40,6 +40,7 @@ export async function register(values: z.infer<typeof registerSchema>) {
       surname,
       email,
       password: hashedPassword,
+      role: "user",
     })
     .returning({ id: users.id });
 
