@@ -24,11 +24,13 @@ export default async function SalonPage({
 
   if (!userId) {
     return (
-      <main className=" min-h-screen flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24">
+      <main className=" min-h-screen flex-grow flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24">
         <center>
           <p>You are not logged in. Please log in to see your profile</p>
           <Button asChild>
-            <Link href="/login">Go to Login page</Link>
+            <Link href="/login" className="py-4">
+              Go to Login page
+            </Link>
           </Button>
         </center>
       </main>
