@@ -8,7 +8,7 @@ export default async function RegisterPage() {
   return (
     <main className="flex-grow items-center ">
       <section
-        className=" mt-20 md:mt-24 flex flex-col justify-center md:justify-between align-middle md:flex-row md:mx-20 md:py-10 md:px-20  md:border  md:bg-white md:rounded-md 
+        className="px-4 mt-24 md:mt-32 flex flex-col justify-center md:justify-between align-middle md:flex-row md:mx-20 md:py-10 md:px-20  md:border  md:bg-white md:rounded-md 
      "
       >
         <div className="my-auto md:w-1/2 ">
