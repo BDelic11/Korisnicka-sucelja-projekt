@@ -54,6 +54,7 @@ WEB: "/", "/login", "/register", "/inspiration", "/profile"
 - Link to Assignment 1: [**Assignment 1**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/1-assignment/Snimka-figma-final.mp4) <!-- Replace with actual URL -->
 - Link to Assignment 2: [**Assignment 2**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/2-assignment/2-assignment.pdf) <!-- Replace with actual URL -->
 - Link to Assignment 4: [**Assignment 4**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/4-assignment/High-Fidelity.png) <!-- Replace with actual URL -->
+- Link to Assignment 6: [**Assignment 6**](https://github.com/BDelic11/Korisnicka-sucelja-projekt/blob/main/assignments/6-assignment)
 <!-- Add more assignments as necessary -->
 
 ## Project Requirements
