@@ -35,7 +35,7 @@ Added small fixes in web and admin aplication, design, filters, search
 ## Pages
 
 ADMIN: "/", "/login", "/register", "/gallery", "/profile"
-WEB: "/", "/login", "/register", "/inspiration", "/profile"
+WEB: "/", "/login", "/register", "/inspiration", "/profile", "/salon/[salonId]"
 
 
 ##Following links are up to date and working
