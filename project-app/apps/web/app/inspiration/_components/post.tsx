@@ -54,28 +54,39 @@ const Post = async ({ salonName, ...post }: PostProps) => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="w-full h-4/5 ">
+        <DialogContent className="w-full min-h-fit ">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
-            <div className="flex flex-col justify-between ">
+            <div className="flex flex-col justify-between min-h-fit ">
               <Image
-                className="flex-grow object-cover w-full max-h-[500px] m-auto py-20"
+                className="w-full object-cover  my-4 
+            
+             max-h-[400px] md:max-h-[800px] lg:max-h-[600px]"
                 src={imageUrl}
                 alt={title}
-                // fill
-                width={400}
-                height={400}
-                // className="object-cover m-auto w-full h-full py-10  "
+                width={800}
+                height={600}
               />
-              <div className="flex flex-row justify-between align-middle ">
-                {salonName && (
-                  <Link href={`/salon/${salonId}`}>
-                    <h2 className="text-gray-700 pt-2 font-semibold absolute bottom-16 left-8 ">
-                      {salonName}
-                    </h2>
-                  </Link>
-                )}
-                <div className="absolute bottom-16 right-8">
+              <div className="flex flex-row justify-between align-middle h-min w-full my-4 m">
+                <div className="flex flex-col justify-between h-min">
+                  {salonName && (
+                    <Link href={`/salon/${salonId}`}>
+                      <h2 className="text-gray-700 font-semibold text-start">
+                        {salonName}
+                      </h2>
+                    </Link>
+                  )}
+                  <div className=" font-light text-gray-500 text-sm">
+                    {tags ? (
+                      tags.map((tag: any) => (
+                        <span key={tag.id}>#{tag.name}</span>
+                      ))
+                    ) : (
+                      <p>No tags</p>
+                    )}
+                  </div>
+                </div>
+                <div className="">
                   <LikesComponent
                     postId={id}
                     initialLikedBool={initialLikedBool}
@@ -84,13 +95,6 @@ const Post = async ({ salonName, ...post }: PostProps) => {
                   />
                 </div>
               </div>
-            </div>
-            <div className="absolute bottom-8 left-8 font-light text-gray-500 text-sm">
-              {tags ? (
-                tags.map((tag: any) => <span key={tag.id}>#{tag.name}</span>)
-              ) : (
-                <p>No tags</p>
-              )}
             </div>
           </DialogHeader>
         </DialogContent>
