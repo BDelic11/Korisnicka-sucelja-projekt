@@ -2,6 +2,8 @@
 
 import { useDebouncedCallback } from "use-debounce";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+import searchIcon from "@/public/icons/search.svg";
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
@@ -23,6 +25,7 @@ export default function Search({ placeholder }: { placeholder: string }) {
       <label htmlFor="search" className="sr-only">
         Search
       </label>
+
       <input
         className="bg-white peer block w-full md:w-1/3 rounded-full border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
         placeholder={placeholder}
@@ -31,7 +34,11 @@ export default function Search({ placeholder }: { placeholder: string }) {
         }}
         defaultValue={searchParams.get("search")?.toString()}
       />
-      {/* <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" /> */}
+      <Image
+        src={searchIcon}
+        alt="search"
+        className="absolute left-4 top-1/2 h-[16px] w-[16px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900"
+      />
     </section>
   );
 }

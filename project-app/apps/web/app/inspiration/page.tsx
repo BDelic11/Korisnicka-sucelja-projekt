@@ -3,8 +3,8 @@ import React, { Suspense } from "react";
 import { PostsGrid } from "./_components/posts-grid";
 import LayoutContainer from "@/components/ui/container";
 import FilterButtons from "./_components/filter-buttons";
-import { InspirationSkeleton } from "@/components/skeletons/inspiration-skeleton";
 import { getAllTags } from "@/actions/utils/tags";
+import { LoadingSpinner } from "@/components/skeletons/about-skeleton";
 
 export default async function InspirationPage(props: {
   searchParams?: Promise<{
@@ -25,7 +25,7 @@ export default async function InspirationPage(props: {
       </section>
       <Search placeholder="Search salons..." />
       <FilterButtons tagsData={tagsData} />
-      <Suspense fallback={<InspirationSkeleton />}>
+      <Suspense fallback={<LoadingSpinner />}>
         <PostsGrid query={query} search={search} />
       </Suspense>
     </LayoutContainer>
