@@ -24,7 +24,7 @@ export default async function SalonPage({
 
   if (!userId) {
     return (
-      <main className=" min-h-screen flex-grow flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24 mt-16 md:mt-20">
+      <main className=" min-h-screen flex-grow flex flex-col justify-center align-middle md:flex-row md:w-full md:h-full md:my-auto md:px-24 ">
         <center>
           <p>You are not logged in. Please log in to see your profile</p>
           <Button asChild>
@@ -43,7 +43,7 @@ export default async function SalonPage({
   const initialFollowedBool = await isSalonFollowed(salon.id);
 
   return (
-    <LayoutContainer className="min-h-screen pt-10  flex flex-col w-full  ">
+    <LayoutContainer className="min-h-screen pt-10  flex flex-col w-full mt-16 md:mt-20 ">
       <div className=" flex flex-col justify-center align-middle w-full md:gap-2    ">
         <div className=" flex flex-row justify-between align-middle w-full md:px-52">
           <Image
