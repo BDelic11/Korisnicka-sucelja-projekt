@@ -54,14 +54,13 @@ const Post = async ({ salonName, ...post }: PostProps) => {
             </div>
           </div>
         </DialogTrigger>
-        <DialogContent className="w-full min-h-fit ">
+        <DialogContent className="w-full min-h-fit max-h-4/5 ">
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <div className="flex flex-col justify-between min-h-fit ">
               <Image
-                className="w-full object-cover  my-4 
-            
-             max-h-[400px] md:max-h-[800px] lg:max-h-[600px]"
+                className="w-full object-cover my-4 
+             max-h-[400px] md:max-h-[400px] lg:max-h-[400px]"
                 src={imageUrl}
                 alt={title}
                 width={800}
