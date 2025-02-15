@@ -25,19 +25,28 @@ Also there is profile page in right avatar icon and logout button.
 So useable pages are "/" "/about" "/register" "/login" "/profile" for now.
 Newly its added that on every post it is possible to like image, also click on salon name inside post, takes you to dynamic salon page that has all its posts.
 Updated loading on about page, filter button "clear all" added (lifted up state of active filters), using use optimistic while liking (fixed speed)
-
-## Last Update
 Latest added admin app, with possibility to add images, add posts, edit posts , delete post from your salon, added cloudinary for image saving in database, roles "admin" "user",  
 On Web App updates: added table Followers, and follow functionality with optimistic on salon page for user to follow, burger for mobile works now as dropdown, 
 Footer fixed on both logins (min height size, fotter on bottom)
 
+## Last Update
+Added small fixes in web and admin aplication, design, filters, search
+
+## Pages
+
+ADMIN: "/", "/login", "/register", "/gallery", "/profile"
+WEB: "/", "/login", "/register", "/inspiration", "/profile"
+
 
 ##Following links are up to date and working
 
-- Link to production version WEB APP: [**Production Version**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
-- Link to production version ADMIN APP: [**Production Version**](https://stylist-inspiration-admin.vercel.app/)
-- Link to registration page: [**Register page production**](https://stylist-inspiration-web.vercel.app/register)
-- Link to your final report: [**Final Report**](URL_TO_FINAL_REPORT) <!-- Replace with actual URL -->
+- Link to production version WEB APP: [**Production Version Web aplication**](https://stylist-inspiration-web.vercel.app/) <!-- Replace with actual URL -->
+- Link to production version ADMIN APP: [**Production Version Admin aplication**](https://stylist-inspiration-admin.vercel.app/)
+- Link to registration page: [**Register page Web**](https://stylist-inspiration-web.vercel.app/register)
+- Link to registration page: [**Login page Web**](https://stylist-inspiration-web.vercel.app/login)
+- Link to registration page: [**Register page Admin**](https://stylist-inspiration-admin.vercel.app/register)
+- Link to registration page: [**Login page Admin**](https://stylist-inspiration-admin.vercel.app/login)
+- Link to your final report: [**Final Report Notion**](https://right-straw-922.notion.site/Stylist-Inspiration-19a16ecc6fe48057892ce7177425f47f) <!-- Replace with actual URL -->
 <!-- Add more as necessary -->
 
 ### Semester Assignments
