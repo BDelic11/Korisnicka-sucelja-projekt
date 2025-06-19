@@ -8,6 +8,6 @@ export default {
   out: "./drizzle",
   dialect: "postgresql",
   dbCredentials: {
-    url: "postgresql://postgres.lumkjmijlwmukgauuipu:StylistInspiration1234@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1",
+    url: "postgresql://postgres.ypdybqbvodyehpngxtmu:StylistInspiration1234@aws-0-eu-central-1.pooler.supabase.com:6543/postgres?pgbouncer=true&connection_limit=1",
   },
 } satisfies Config;
